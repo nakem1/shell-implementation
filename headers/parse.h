@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_elem.c                                   :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 18:30:56 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/18 06:15:15 by lmurray          ###   ########.fr       */
+/*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
+/*   Updated: 2021/03/18 07:48:51 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PARSE_H
+# define PARSE_H
 
-t_list	*ft_create_elem(void *content)
+# include "libft.h"
+# include "structs.h"
+
+typedef struct		s_parse
 {
-	t_list *tmp;
+	t_shell			*shell;
+	char			*str;
+	char			**replace_str;
+	char			**env;
+	int				i_str;
+	// int				count_quotes;
+}					t_parse;
 
-	if (!(tmp = (t_list*)malloc(sizeof(t_list))))
-		return (NULL);
-	// if (!(tmp->content = malloc(sizeof(int))))
-	// 	return (NULL);
-	if (tmp)
-	{
-		tmp->content = content;
-		tmp->next = NULL;
-	}
-	return (tmp);
-}
+void		line_division(t_parse *parse);
+t_shell		*parse(char *str);
+
+#endif

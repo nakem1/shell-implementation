@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 22:18:29 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/06 22:09:56 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/18 06:15:32 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_list		*ft_lstnew(void *content)
 	if (tmp)
 	{
 		tmp->content = content;
-		tmp->flag = 0;
 		tmp->next = NULL;
 	}
 	return (tmp);

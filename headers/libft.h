@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/11 04:39:54 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/18 06:12:14 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef struct		s_list
 {
 	void			*content;
 	struct s_list	*next;
-	int				flag;
-	int				index;
 }					t_list;
 
 void				*ft_memset(void *s, int c, size_t n);

@@ -6,17 +6,34 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/17 03:03:37 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/18 04:54:33 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+/*
+** 		prog_name - name of executable program
+**		prog_args - arguments of programm
+**		flag - output redirection type: PIPE, STDIN_REDIRECT, STDOUT_REDIRECT
+**		APPEND_REDIRECT
+**		redirect_file - file required for redirection
+*/
+
+typedef struct		s_prog
+{
+	char			*prog_name;
+	char			**prog_args;
+	int				flag;
+	char			*redirect_file;
+}					t_prog;
+
+
 typedef struct		s_shell
 {
-	char			**main_arg;
-	char			*name_program;
+	t_list			*progs_list;
+	int				count_progs;
 }					t_shell;
 
 
