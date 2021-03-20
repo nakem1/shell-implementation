@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/18 06:12:14 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/20 06:37:32 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void				ft_list_push_front(t_list **begin_list, void *data);
 void				ft_list_clear(t_list **begin_list);
 int					ft_list_size(t_list *map_list);
 t_list				*ft_list_at(t_list *begin_list, unsigned int nbr);
+t_list				*ft_list_last(t_list *begin_list);
+void				*ft_list_last_content(t_list *begin_list);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 t_list				*ft_lstlast(t_list *lst);

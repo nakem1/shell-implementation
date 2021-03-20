@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/18 10:28:05 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/20 06:40:45 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,17 @@ int			main(int argc, char **argv, char **env)
 {
 	int			i;
 	t_shell		*shell;
+	t_prog		*tmp;//
 
+	i = 0;
 	(void)argc;
 	(void)argv;
 	shell = parse(argv[1], env);
+	tmp = shell->progs_list->content;
+	while (tmp->prog_args[i] != NULL)
+	{
+		printf("%s\n", tmp->prog_args[i]);
+		i++;
+	}
 	return (0);
 }

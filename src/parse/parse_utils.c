@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_elem.c                                   :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 18:30:56 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/19 23:40:32 by lmurray          ###   ########.fr       */
+/*   Created: 2021/03/20 04:37:40 by lmurray           #+#    #+#             */
+/*   Updated: 2021/03/20 08:54:29 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parse.h"
 
-t_list	*ft_create_elem(void *content)
+void		skip_spaces(t_parse *parse, int *i)
 {
-	t_list *tmp;
-
-	if (!(tmp = (t_list*)malloc(sizeof(t_list))))
-		return (NULL);
-	// if (!(tmp->content = malloc(sizeof(int))))
-	// 	return (NULL);
-	if (tmp)
+	while (parse->replace_str[*i][0] == -1 && parse->replace_str[*i][0] != '\0'
+			&& *i < parse->i_str)
 	{
-		tmp->content = content;
-		tmp->next = NULL;
+		*i += 1;
 	}
-	return (tmp);
+}
+
+void		skip_alpha(t_parse *parse, int *i)
+{
+	int count;
+
+	count = 0;
+	while (parse->replace_str[*i][0] != -1 && *i < parse->i_str &&
+			parse->replace_str[*i][0] != '\0')
+	{
+		*i += 1;
+		count++;
+	}
+	return (count);
 }

@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_elem.c                                   :+:      :+:    :+:   */
+/*   ft_list_last_content.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 18:30:56 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/19 23:40:32 by lmurray          ###   ########.fr       */
+/*   Created: 2021/03/20 02:54:37 by lmurray           #+#    #+#             */
+/*   Updated: 2021/03/20 06:37:45 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_create_elem(void *content)
+void		*ft_list_last_content(t_list *begin_list)
 {
 	t_list *tmp;
 
-	if (!(tmp = (t_list*)malloc(sizeof(t_list))))
-		return (NULL);
-	// if (!(tmp->content = malloc(sizeof(int))))
-	// 	return (NULL);
+	tmp = begin_list;
 	if (tmp)
 	{
-		tmp->content = content;
-		tmp->next = NULL;
+		while (tmp->next)
+		{
+			tmp = tmp->next;
+		}
+		return (tmp->content);
 	}
-	return (tmp);
+	else
+		return (NULL);
 }
+
