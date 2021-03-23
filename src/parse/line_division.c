@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/23 02:59:01 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/23 03:10:04 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,10 @@ void			line_division(t_parse *parse)
 		// 	handle_shielding(parse);
 		if (parse->str[*i] == ' ')
 			parse->replace_str[*i][0] = -1;
-		if (parse->str[*i] == '$')
+		else if (parse->str[*i] == '$')
 			handle_env(parse);
-		parse->i_str++;
+		else
+			parse->i_str++;
 	}
 	set_output_str(parse);
 	// redirect_pipe(parse); // увеличить каунт прог и расставить флаги
