@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/20 06:40:45 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/21 04:50:08 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_parse		*init_struct(char *str, char **env)
 	parse->shell->progs_list = NULL;
 	parse->str = str;
 	parse->i_str = 0;
+	parse->number_args = 0;
 	// parse->replace_str = NULL;
 	parse->env = env;
 	parse->replace_str = (char **)malloc(sizeof(char *) * (size_str + 1));

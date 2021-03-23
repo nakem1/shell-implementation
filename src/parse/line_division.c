@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/20 09:33:03 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/23 02:59:01 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char			*get_need_env(t_parse *parse, int j)
 	}
 	return (NULL);
 }
-
+// исправить этот бред сумасшедшего
 void			reset_replace_str(t_parse *parse, int j, char *target_env)
 {
 	free(parse->replace_str[j]);

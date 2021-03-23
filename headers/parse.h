@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/20 08:54:38 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/21 04:49:42 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct		s_parse
 	char			**replace_str;
 	char			**env;
 	int				i_str;
+	int				number_args;
 	// int				count_quotes;
 }					t_parse;
 
