@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/23 03:10:04 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/23 05:23:43 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char			*get_need_env(t_parse *parse, int j)
 	i = 0;
 	while (parse->env[i] != NULL)
 	{
-		if (ft_strncmp(str_env, parse->env[i], ft_strlen(str_env)))
+		if (!ft_strncmp(str_env, parse->env[i], ft_strlen(str_env)))
 		{
 			free(str_env);
 			str_env = ft_strdup(parse->env[i]);
@@ -48,11 +48,15 @@ char			*get_need_env(t_parse *parse, int j)
 // исправить этот бред сумасшедшего
 void			reset_replace_str(t_parse *parse, int j, char *target_env)
 {
-	free(parse->replace_str[j]);
-	if (target_env == NULL)
-		parse->replace_str[j] = target_env;
-	while (++j < parse->i_str)
+	if (target_env != NULL)
+	{
 		free(parse->replace_str[j]);
+		parse->replace_str[j] = target_env;
+	}
+	else
+		parse->replace_str[j][0] = '\0';
+	while (++j < parse->i_str)
+		parse->replace_str[j][0] = '\0';
 }
 
 /*
@@ -97,7 +101,10 @@ void			line_division(t_parse *parse)
 		// 		parse->str[*i] == "\\")
 		// 	handle_shielding(parse);
 		if (parse->str[*i] == ' ')
+		{
 			parse->replace_str[*i][0] = -1;
+			parse->i_str++;
+		}
 		else if (parse->str[*i] == '$')
 			handle_env(parse);
 		else

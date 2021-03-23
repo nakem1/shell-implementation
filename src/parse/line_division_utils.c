@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:30:06 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/23 02:43:36 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/23 03:57:08 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void		copy_env_tostr(t_parse *parse, int i, t_prog *prog, int *j)
 	{
 		prog->prog_args[parse->number_args][*j + k] = parse->replace_str[i][k];
 		k++;
-		i++;
 	}
 	*j += k;
 }
@@ -79,7 +78,10 @@ void		set_word(t_parse *parse, int *i, t_prog *prog)
 	{
 		if (parse->replace_str[*i][0] != '\0' &&
 				parse->replace_str[*i][1] != '\0')
+		{
 			copy_env_tostr(parse, *i, prog, &j);
+			*i += 1;
+		}
 		else
 		{
 			if (parse->replace_str[*i][0] != '\0')

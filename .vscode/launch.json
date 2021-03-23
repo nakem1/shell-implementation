@@ -1,19 +1,48 @@
+// {
+// 	// Use IntelliSense to learn about possible attributes.
+// 	// Hover to view descriptions of existing attributes.
+// 	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+// 	"version": "0.2.0",
+// 	"configurations": [
+// 		{
+// 			"type": "lldb",
+// 			"request": "launch",
+// 			"name": "Debug",
+// 			"program": "${workspaceFolder}/minishell",
+// 			"args":
+// 			[
+// 				"$PATH"
+// 			],
+// 			"cwd": "${workspaceFolder}"
+// 		}
+// 	]
+// }
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
-	"configurations": [
+	"configurations":
+	[
 		{
+			"name": "(lldb) Запустить",
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug",
 			"program": "${workspaceFolder}/minishell",
-			"args":
+			"args": 
 			[
 				"$PATH"
 			],
-			"cwd": "${workspaceFolder}"
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [ { "name": "squid", "value": "clam" } ],
+			"externalConsole": false,
+			"MIMode": "lldb"
+		},
+		{
+			"name": "(lldb) Подключить",
+			"type": "lldb",
+			"request": "attach",
+			"program": "${workspaceFolder}/minishell}",
+			"processId": "${command:pickProcess}",
+			"MIMode": "lldb"
 		}
 	]
 }
