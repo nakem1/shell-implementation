@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/23 05:25:55 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/24 04:45:42 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	shell = parse("hi $PATH hello", env);
+	shell = parse("$PATH", env);
 	tmp = shell->progs_list->content;
 	while (tmp->prog_args[i] != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/23 05:23:43 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/24 04:33:38 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,26 @@
 char			*get_need_env(t_parse *parse, int j)
 {
 	int		i;
+	int		count;
 	char	*str_env;
 
 	i = 0;
-	str_env = (char *)malloc(sizeof(char) * ((parse->i_str - j) + 1));
+	str_env = (char *)malloc(sizeof(char) * ((parse->i_str - j) + 2));
 	while (j + i < parse->i_str)
 	{
 		str_env[i] = parse->str[j + i];
 		i++;
 	}
-	str_env[i] = '\0';
+	str_env[i] = '=';
+	str_env[i + 1] = '\0';
 	i = 0;
 	while (parse->env[i] != NULL)
 	{
 		if (!ft_strncmp(str_env, parse->env[i], ft_strlen(str_env)))
 		{
+			count = ft_strlen(str_env);
 			free(str_env);
-			str_env = ft_strdup(parse->env[i]);
+			str_env = ft_strdup(&(parse->env[i][count]));
 			return (str_env);
 		}
 		i++;
