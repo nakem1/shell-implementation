@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:30:06 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/24 04:20:46 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/27 08:17:33 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int			set_word(t_parse *parse, int *i, t_prog *prog)
 	return (0);
 }
 
-void		set_output_str(t_parse *parse)
+t_prog		*set_output_str(t_parse *parse)
 {
 	int		i;
 	t_prog	*prog;

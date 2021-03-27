@@ -6,12 +6,11 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/24 04:33:38 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/27 08:19:28 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-
 
 /*
 ** 		Function:			char		*get_need_env()
@@ -92,18 +91,16 @@ void			handle_env(t_parse *parse)
 void			line_division(t_parse *parse)
 {
 	int		*i;
-	int		size_word;
-	// char	*str;
+	t_prog	*prog;
 
-	size_word = 0;
 	i = &(parse->i_str);
 	while (parse->str[*i] != '\0' && parse->str[*i] != '|' && \
-			parse->str[*i] != ';')
+			parse->str[*i] != ';' && parse->error_flag == 0)
 	{
-		// if (parse->str[*i] == "\"" || parse->str[*i] == "\'" || \
-		// 		parse->str[*i] == "\\")
-		// 	handle_shielding(parse);
-		if (parse->str[*i] == ' ')
+		if (parse->str[*i] == '\"' || parse->str[*i] == '\'' || \
+		 		parse->str[*i] == '\\')
+			handle_shielding(parse);
+		else if (parse->str[*i] == ' ')
 		{
 			parse->replace_str[*i][0] = -1;
 			parse->i_str++;
@@ -113,6 +110,8 @@ void			line_division(t_parse *parse)
 		else
 			parse->i_str++;
 	}
-	set_output_str(parse);
-	// redirect_pipe(parse); // увеличить каунт прог и расставить флаги
+	if (parse->error_flag != 0)
+		return ;
+	prog = set_output_str(parse);
+	redirect_pipe(parse, prog); // увеличить каунт прог и расставить флаги
 }

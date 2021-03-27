@@ -6,12 +6,20 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/20 09:16:32 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/27 08:31:23 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+enum			e_settings
+{
+	e_pipe,
+	e_stdin_redirect,
+	e_stdout_redirect,
+	e_append_redirect,
+};
 
 /*
 ** 		prog_name - name of executable program
@@ -30,12 +38,10 @@ typedef struct		s_prog
 	char			*redirect_file;
 }					t_prog;
 
-
 typedef struct		s_shell
 {
 	t_list			*progs_list;
 	int				count_progs;
 }					t_shell;
-
 
 #endif

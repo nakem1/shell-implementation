@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/24 04:45:42 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/27 06:22:55 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_parse		*init_struct(char *str, char **env)
 	parse->str = str;
 	parse->i_str = 0;
 	parse->number_args = 0;
+	parse->error_flag = 0;
 	// parse->replace_str = NULL;
 	parse->env = env;
 	parse->replace_str = (char **)malloc(sizeof(char *) * (size_str + 1));
@@ -67,19 +68,29 @@ t_parse		*init_struct(char *str, char **env)
 t_shell		*parse(char *str, char **env)
 {
 	t_parse		*parse;
+	t_shell		*tmp;
 	int			j;
 
 	j = 0;
 	parse = init_struct(str, env);
 	// if (check_str(str))
 	// 	error_output(/* something */);
-	while (j < parse->shell->count_progs)
+	while (j < parse->shell->count_progs && parse->error_flag == 0)
 	{
 		add_prog(parse->shell); // создает один лист в progs_list
 		line_division(parse); // парсит строку итой программы
 		j++;
 	}
-	return (parse->shell);
+	tmp = parse->shell;
+	free_array2d(parse->replace_str);
+	free(parse);
+	if (parse->error_flag != 0)
+	{
+		free_shell(&tmp);
+		return (NULL);
+	}
+	else
+		return (tmp);
 }
 
 int			main(int argc, char **argv, char **env)
@@ -92,7 +103,13 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	shell = parse("$PATH", env);
+	printf("src = %s \n", argv[1]);
+	shell = parse(argv[1], env);
+	if (shell == NULL)
+	{
+		printf("SYNTAX ERROR\n");
+		return (1);
+	}
 	tmp = shell->progs_list->content;
 	while (tmp->prog_args[i] != NULL)
 	{
