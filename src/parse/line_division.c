@@ -6,11 +6,35 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/27 08:19:28 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/28 04:56:15 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+void			line_move(t_parse *parse)
+{
+	int *i;
+
+	i = &(parse->i_str);
+	while (parse->str[*i] != '\0' && parse->str[*i] != '|'
+			&& parse->str[*i] != ';' && parse->error_flag == 0 &&
+			parse->str[*i] != '>' && parse->str[*i] != '<')
+	{
+		if (parse->str[*i] == '\"' || parse->str[*i] == '\''
+				|| parse->str[*i] == '\\')
+			handle_shielding(parse);
+		else if (parse->str[*i] == ' ')
+		{
+			parse->replace_str[*i][0] = -1;
+			parse->i_str++;
+		}
+		else if (parse->str[parse->i_str] == '$')
+			handle_env(parse);
+		else
+			parse->i_str++;
+	}
+}
 
 /*
 ** 		Function:			char		*get_need_env()
@@ -90,28 +114,13 @@ void			handle_env(t_parse *parse)
 
 void			line_division(t_parse *parse)
 {
-	int		*i;
 	t_prog	*prog;
 
-	i = &(parse->i_str);
-	while (parse->str[*i] != '\0' && parse->str[*i] != '|' && \
-			parse->str[*i] != ';' && parse->error_flag == 0)
-	{
-		if (parse->str[*i] == '\"' || parse->str[*i] == '\'' || \
-		 		parse->str[*i] == '\\')
-			handle_shielding(parse);
-		else if (parse->str[*i] == ' ')
-		{
-			parse->replace_str[*i][0] = -1;
-			parse->i_str++;
-		}
-		else if (parse->str[*i] == '$')
-			handle_env(parse);
-		else
-			parse->i_str++;
-	}
+	parse->start_command = parse->i_str;
+	line_move(parse);
 	if (parse->error_flag != 0)
 		return ;
 	prog = set_output_str(parse);
-	redirect_pipe(parse, prog); // увеличить каунт прог и расставить флаги
+	handle_redirect(parse, prog);
+	handle_semicolon_pipe(parse, prog); // увеличить каунт прог и расставить флаги
 }

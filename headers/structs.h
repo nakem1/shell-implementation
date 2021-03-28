@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/27 08:31:23 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/28 02:16:07 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 enum			e_settings
 {
 	e_pipe,
+	e_semicolon,
 	e_stdin_redirect,
 	e_stdout_redirect,
 	e_append_redirect,
@@ -25,7 +26,7 @@ enum			e_settings
 ** 		prog_name - name of executable program
 **		prog_args - arguments of programm
 **		flag - output redirection type: PIPE, STDIN_REDIRECT(<),
-**		STDOUT_REDIRECT(>), APPEND_REDIRECT(>>)
+**		STDOUT_REDIRECT(>), APPEND_REDIRECT(>>), SEMICOLON(;)
 **		redirect_file - file required for redirection
 */
 
