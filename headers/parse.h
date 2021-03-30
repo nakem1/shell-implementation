@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/28 08:50:46 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/29 04:40:02 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ t_shell		*parse(char *str, char **env);
 void		skip_spaces(t_parse *parse, int *i);
 int			skip_alpha(t_parse *parse, int *i);
 t_prog		*set_output_str(t_parse *parse);
+void		copy_env_tostr(t_parse *parse, int i, char **prog_args, int *j);
 int			word_counter(t_parse *parse);
+int			count_letters_inword(t_parse *parse, int i);
 void		handle_env(t_parse *parse);
 void		handle_shielding(t_parse *parse);
+void		handle_redirect(t_parse *parse, t_prog *prog);
+void		handle_semicolon_pipe(t_parse *parse, t_prog *prog);
 void		free_array2d(char **arr);
 void		free_shell(t_shell **shell);
 

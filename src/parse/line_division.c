@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/28 04:56:15 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/30 02:17:41 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,13 @@ void			line_division(t_parse *parse)
 {
 	t_prog	*prog;
 
+	parse->number_args = 0;
 	parse->start_command = parse->i_str;
 	line_move(parse);
 	if (parse->error_flag != 0)
 		return ;
-	prog = set_output_str(parse);
+	if (!(prog = set_output_str(parse)))
+		return ;
 	handle_redirect(parse, prog);
 	handle_semicolon_pipe(parse, prog); // увеличить каунт прог и расставить флаги
 }

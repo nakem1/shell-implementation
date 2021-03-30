@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/28 04:08:27 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/30 01:59:07 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void		add_prog(t_shell *shell)
 	prog = (t_prog *)malloc(sizeof(t_prog));
 	prog->prog_name = NULL;
 	prog->prog_args = NULL;
-	prog->flag = -1;
+	prog->flag_redirect = -1;
+	prog->flag_separator = -1;
 	prog->redirect_file = NULL;
 	ft_list_push_back(&shell->progs_list, (void *)prog);
 }
@@ -97,10 +98,13 @@ t_shell		*parse(char *str, char **env)
 int			main(int argc, char **argv, char **env)
 {
 	int			i;
+	int			j;
 	t_shell		*shell;
-	t_prog		*tmp;//
+	t_prog		*tmp;
+	t_list		*list;
 
 	i = 0;
+	j = 0;
 	(void)argc;
 	(void)argv;
 	(void)env;
@@ -111,10 +115,41 @@ int			main(int argc, char **argv, char **env)
 		printf("SYNTAX ERROR\n");
 		return (1);
 	}
-	tmp = shell->progs_list->content;
-	while (tmp->prog_args[i] != NULL)
+	// tmp = shell->progs_list->content;
+	// if (shell->progs_list->next != NULL)
+	// {
+	// 	tmp1 = shell->progs_list->next->content;
+	// 	while (tmp1->prog_args[i] != NULL)
+	// 	{
+	// 		printf(" 2 ===== %s\n", tmp1->prog_args[i]);
+	// 		i++;
+	// 	}
+	// }
+	// i = 0;
+	// while (tmp->prog_args[i] != NULL)
+	// {
+	// 	printf("%s\n", tmp->prog_args[i]);
+	// 	i++;
+	// }
+	// if (tmp->flag != -1)
+	// 	printf("flag = %d\n", tmp->flag);
+	// if (tmp->redirect_file != NULL)
+	// 	printf("redirect_file = %s\n", tmp->redirect_file);
+	list = shell->progs_list;
+	while (i < shell->count_progs)
 	{
-		printf("%s\n", tmp->prog_args[i]);
+		j = 0;
+		tmp = list->content;
+		while (tmp->prog_args[j] != NULL)
+		{
+			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
+			j++;
+		}
+		if (tmp->flag_redirect != -1)
+			printf("flag_redirect == %d\n", tmp->flag_redirect);
+		if (tmp->flag_separator != -1)
+			printf("flag_separator == %d\n", tmp->flag_separator);
+		list = list->next;
 		i++;
 	}
 	return (0);

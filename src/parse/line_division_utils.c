@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:30:06 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/28 04:09:16 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/03/30 02:17:24 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int			count_letters_inword(t_parse *parse, int i)
 	return (count);
 }
 
-void		copy_env_tostr(t_parse *parse, int i, t_prog *prog, int *j)
+void		copy_env_tostr(t_parse *parse, int i, char **prog_args, int *j)
 {
 	int k;
 	
 	k = 0;
 	while (parse->replace_str[i][k] != '\0')
 	{
-		prog->prog_args[parse->number_args][*j + k] = parse->replace_str[i][k];
+		prog_args[parse->number_args][*j + k] = parse->replace_str[i][k];
 		k++;
 	}
 	*j += k;
@@ -50,15 +50,17 @@ int			word_counter(t_parse *parse)
 	int i;
 	int count;
 
-	i = 0;
+	i = parse->start_command;
 	count = 0;
 	while (i < parse->i_str)
 	{
 		skip_spaces(parse, &i);
 		if (i < parse->i_str)
+		{
 			count++;
-		if (skip_alpha(parse, &i))
-			count--;
+			if (skip_alpha(parse, &i))
+				count--;
+		}
 	}
 	return (count);
 }
@@ -81,7 +83,7 @@ int			set_word(t_parse *parse, int *i, t_prog *prog)
 		if (parse->replace_str[*i][0] != '\0' &&
 				parse->replace_str[*i][1] != '\0')
 		{
-			copy_env_tostr(parse, *i, prog, &j);
+			copy_env_tostr(parse, *i, prog->prog_args, &j);
 			*i += 1;
 		}
 		else
@@ -102,7 +104,11 @@ t_prog		*set_output_str(t_parse *parse)
 
 	i = parse->start_command;
 	prog = ft_list_last_content(parse->shell->progs_list);
-	prog->count_args = word_counter(parse);
+	if (!(prog->count_args = word_counter(parse)))
+	{
+		parse->error_flag = 1;
+		return (NULL);
+	}
 	prog->prog_args = (char **)malloc(sizeof(char *) * (prog->count_args + 1));
 	prog->prog_args[prog->count_args] = NULL;
 	while (i < parse->i_str)
@@ -113,4 +119,5 @@ t_prog		*set_output_str(t_parse *parse)
 		else
 			i++;
 	}
+	return (prog);
 }
