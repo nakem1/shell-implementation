@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/30 02:07:32 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/06 00:20:31 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*
 **		e_pipe(0) |
-**		e_semicolon(1) ;
+**		e_semicolon ;
 **		e_stdin_redirect(2) <
 **		e_stdout_redirect(3) >
 **		e_append_redirect(4) >>
@@ -29,6 +29,8 @@ enum			e_settings
 	e_stdout_redirect,
 	e_append_redirect,
 };
+
+# define NONE_FD -300
 
 /*
 ** 		prog_name - name of executable program
@@ -46,6 +48,7 @@ typedef struct		s_prog
 	int				flag_separator;
 	int				flag_redirect;
 	char			*redirect_file;
+	int				redirect_fd;
 }					t_prog;
 
 typedef struct		s_shell

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 08:11:09 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/30 01:55:34 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/06 00:18:44 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ void		handle_redirect(t_parse *parse, t_prog *prog)
 		start_redir = parse->i_str;
 		line_move(parse);
 		set_redirect_file(parse, prog, start_redir);
+		prog->redirect_fd = open(prog->redirect_file, O_CREAT);
+		if (prog->redirect_fd == -1)
+			parse->error_flag = 1;
 	}
 }
 
@@ -129,7 +132,7 @@ void		handle_semicolon_pipe(t_parse *parse, t_prog *prog)
 	else if (parse->replace_str[parse->i_str][0] == ';')
 	{
 		prog->flag_separator = e_semicolon;
-		parse->shell->count_progs++;
+//		parse->shell->count_progs++;
 		parse->i_str++;
 	}
 	else

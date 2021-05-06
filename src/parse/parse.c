@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/30 01:59:07 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/06 00:22:51 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void		add_prog(t_shell *shell)
 	prog->flag_redirect = -1;
 	prog->flag_separator = -1;
 	prog->redirect_file = NULL;
+	prog->redirect_fd = NONE_FD;
 	ft_list_push_back(&shell->progs_list, (void *)prog);
 }
 
@@ -154,3 +155,4 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+// TODO echo $?
