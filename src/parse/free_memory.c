@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 05:57:38 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/25 06:45:32 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/08 01:56:43 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void		free_shell(t_shell **shell)
 	tmp = (*shell)->progs_list;
 	ft_lstclear((&tmp), &free_prog);
 	free(*shell);
+	*shell = NULL;
 }

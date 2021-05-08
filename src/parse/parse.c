@@ -6,11 +6,13 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/06 00:22:51 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/08 02:59:31 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+int			indx = 0; // ! delete
 
 void		add_prog(t_shell *shell)
 {
@@ -26,30 +28,35 @@ void		add_prog(t_shell *shell)
 	ft_list_push_back(&shell->progs_list, (void *)prog);
 }
 
-t_parse		*init_struct(char *str, char **env)
+t_parse		*init_struct(char *str, char **env, int *global)
 {
 	t_parse		*parse;
 	int			i;
 	int			size_str;
 
 	i = 0;
+	parse = NULL;
 	size_str = ft_strlen(str);
-	parse = (t_parse *)malloc(sizeof(t_parse)); // защитить маллок
+	if (!(parse = (t_parse *)malloc(sizeof(t_parse))))
+		return (NULL);
 	parse->shell = (t_shell *)malloc(sizeof(t_shell));
 	parse->shell->count_progs = 1;
 	parse->shell->progs_list = NULL;
 	parse->str = str;
-	parse->i_str = 0;
+	parse->i_str = *global;
 	parse->start_command = 0;
 	parse->number_args = 0;
 	parse->error_flag = 0;
+	parse->this_semicolon = 0;
 	// parse->replace_str = NULL;
 	parse->env = env;
-	parse->replace_str = (char **)malloc(sizeof(char *) * (size_str + 1));
+	if (!(parse->replace_str = (char **)malloc(sizeof(char *) * (size_str + 1))))
+		return (NULL);
 	parse->replace_str[size_str] = NULL;
 	while (i < size_str)
 	{
-		parse->replace_str[i] = (char *)malloc(sizeof(char) * 2);
+		if (!(parse->replace_str[i] = (char *)malloc(sizeof(char) * 2)))
+			return (NULL);
 		parse->replace_str[i][0] = parse->str[i];
 		parse->replace_str[i][1] = '\0';
 		i++;
@@ -68,83 +75,57 @@ t_parse		*init_struct(char *str, char **env)
 **		Divides the line into commands if needed
 */
 
-t_shell		*parse(char *str, char **env)
+int			parse(t_shell **shell, char *str, char **env, int *global)
 {
 	t_parse		*parse;
-	t_shell		*tmp;
+	// t_shell		*tmp;
 	int			j;
 
 	j = 0;
-	parse = init_struct(str, env);
+	if (!(parse = init_struct(str, env, global)))
+		return (-1);
 	// if (check_str(str))
 	// 	error_output(/* something */);
-	while (j < parse->shell->count_progs && parse->error_flag == 0)
+	while (j < parse->shell->count_progs && parse->error_flag == 0 && \
+			parse->this_semicolon != 1)
 	{
 		add_prog(parse->shell); // создает один лист в progs_list
 		line_division(parse); // парсит строку итой программы
 		j++;
 	}
-	tmp = parse->shell;
+	*shell = parse->shell;
+	*global = parse->i_str;
 	free_array2d(parse->replace_str);
 	free(parse);
 	if (parse->error_flag != 0)
 	{
-		free_shell(&tmp);
-		return (NULL);
+		free_shell(shell);
+		return (-1);
 	}
+	else if (parse->this_semicolon == 1)
+		return (1);
 	else
-		return (tmp);
+		return (0);
 }
 
-int			main(int argc, char **argv, char **env)
+void		print_fn(t_shell *shell)
 {
-	int			i;
-	int			j;
-	t_shell		*shell;
-	t_prog		*tmp;
-	t_list		*list;
+	int		i;
+	int		j;
+	t_prog	*tmp;
+	t_list	*list;
 
-	i = 0;
-	j = 0;
-	(void)argc;
-	(void)argv;
-	(void)env;
-	printf("src = %s \n", argv[1]);
-	shell = parse(argv[1], env);
-	if (shell == NULL)
-	{
-		printf("SYNTAX ERROR\n");
-		return (1);
-	}
-	// tmp = shell->progs_list->content;
-	// if (shell->progs_list->next != NULL)
-	// {
-	// 	tmp1 = shell->progs_list->next->content;
-	// 	while (tmp1->prog_args[i] != NULL)
-	// 	{
-	// 		printf(" 2 ===== %s\n", tmp1->prog_args[i]);
-	// 		i++;
-	// 	}
-	// }
-	// i = 0;
-	// while (tmp->prog_args[i] != NULL)
-	// {
-	// 	printf("%s\n", tmp->prog_args[i]);
-	// 	i++;
-	// }
-	// if (tmp->flag != -1)
-	// 	printf("flag = %d\n", tmp->flag);
-	// if (tmp->redirect_file != NULL)
-	// 	printf("redirect_file = %s\n", tmp->redirect_file);
 	list = shell->progs_list;
-	while (i < shell->count_progs)
+	while (list != NULL)
 	{
 		j = 0;
+		i = 0;
 		tmp = list->content;
 		while (tmp->prog_args[j] != NULL)
 		{
 			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
 			j++;
+			i++;
 		}
 		if (tmp->flag_redirect != -1)
 			printf("flag_redirect == %d\n", tmp->flag_redirect);
@@ -153,6 +134,44 @@ int			main(int argc, char **argv, char **env)
 		list = list->next;
 		i++;
 	}
+	printf("_______________________________________________END_OF_LIST___\n\n\n");
+}
+
+int			main(int argc, char **argv, char **env)
+{
+	// int				i;
+	int				global;
+	t_shell			*shell;
+	int				end_command;
+	// t_prog		*tmp;
+	// t_list		*list;
+
+	// i = 0;
+	end_command = 0;
+	global = 0;
+	(void)argc;
+	(void)argv;
+	(void)env;
+	while ((end_command = parse(&shell, argv[1], env, &global)) == 1)
+	{
+		if (shell == NULL)
+		{
+			printf("SYNTAX ERROR\n");
+			return (1);
+		}
+		print_fn(shell);
+		free_shell(&shell);
+		indx++; // ! delete
+	}
+	if (end_command == -1)
+	{
+		printf("SYNTAX ERROR\n");
+		return (1);
+	}
+	print_fn(shell);	
 	return (0);
 }
 // TODO echo $?
+// TODO доделать опен флаги для разных вариантов редиректа. 
+// TODO доделать редиректы на открытие файлов в любом месте команды
+// TODO протестить переделанный парсер
