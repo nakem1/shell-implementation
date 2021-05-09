@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/06 23:13:51 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/09 16:45:11 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include "libft.h"
 # include "structs.h"
+
+enum				e_errors
+{
+	e_memory = 2,
+	e_file_not_found,
+};
 
 typedef struct		s_parse
 {
@@ -42,8 +48,10 @@ int			count_letters_inword(t_parse *parse, int i);
 void		handle_env(t_parse *parse);
 void		handle_shielding(t_parse *parse);
 void		handle_redirect(t_parse *parse, t_prog *prog);
+int			open_redirect(t_parse *parse, int type, char *redirect_file);
 void		handle_semicolon_pipe(t_parse *parse, t_prog *prog);
 void		free_array2d(char **arr);
 void		free_shell(t_shell **shell);
+void		handle_errors(int flag_error);
 
 #endif

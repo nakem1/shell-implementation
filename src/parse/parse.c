@@ -6,13 +6,11 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/08 02:59:31 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/09 16:52:31 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-
-int			indx = 0; // ! delete
 
 void		add_prog(t_shell *shell)
 {
@@ -100,10 +98,10 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 	if (parse->error_flag != 0)
 	{
 		free_shell(shell);
-		return (-1);
+		return (parse->error_flag);
 	}
 	else if (parse->this_semicolon == 1)
-		return (1);
+		return (-1);
 	else
 		return (0);
 }
@@ -152,7 +150,7 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	while ((end_command = parse(&shell, argv[1], env, &global)) == 1)
+	while ((end_command = parse(&shell, argv[1], env, &global)) == -1)
 	{
 		if (shell == NULL)
 		{
@@ -161,17 +159,15 @@ int			main(int argc, char **argv, char **env)
 		}
 		print_fn(shell);
 		free_shell(&shell);
-		indx++; // ! delete
 	}
-	if (end_command == -1)
+	if (end_command != 0)
 	{
-		printf("SYNTAX ERROR\n");
+		handle_errors(end_command);
 		return (1);
 	}
 	print_fn(shell);	
 	return (0);
 }
 // TODO echo $?
-// TODO доделать опен флаги для разных вариантов редиректа. 
 // TODO доделать редиректы на открытие файлов в любом месте команды
 // TODO протестить переделанный парсер
