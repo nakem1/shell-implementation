@@ -97,7 +97,7 @@ int			set_word(t_parse *parse, int *i, t_prog *prog)
 	return (0);
 }
 
-t_prog		*set_output_str(t_parse *parse)
+t_prog *set_output_str(t_parse *parse)
 {
 	int		i;
 	t_prog	*prog;

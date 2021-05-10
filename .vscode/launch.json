@@ -28,7 +28,7 @@
 			"program": "${workspaceFolder}/minishell",
 			"args": 
 			[
-				"echo > kek",
+				"e > ",
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/30 02:17:41 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/09 17:25:50 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void			line_move(t_parse *parse)
 
 	i = &(parse->i_str);
 	while (parse->str[*i] != '\0' && parse->str[*i] != '|'
-			&& parse->str[*i] != ';' && parse->error_flag == 0 &&
-			parse->str[*i] != '>' && parse->str[*i] != '<')
+			&& parse->str[*i] != ';' && parse->error_flag == 0)
 	{
 		if (parse->str[*i] == '\"' || parse->str[*i] == '\''
 				|| parse->str[*i] == '\\')
@@ -31,6 +30,8 @@ void			line_move(t_parse *parse)
 		}
 		else if (parse->str[parse->i_str] == '$')
 			handle_env(parse);
+		else if (parse->str[*i] != '>' && parse->str[*i] != '<')
+			handle_redirect(parse, )
 		else
 			parse->i_str++;
 	}
