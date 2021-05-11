@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 08:11:09 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/09 16:13:21 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/10 23:29:57 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,13 @@ void		set_redirect_file(t_parse *parse, t_prog *prog, int start_redir)
 			copy_env_toredirect(parse, &start_redir, prog->redirect_file,
 					&i_redir);
 		else
+		{
 			prog->redirect_file[i_redir++] =
 					parse->replace_str[start_redir++][0];
+			parse->replace_str[start_redir - 1][0] = '\0';
+		}
 	}
-	check_eolfile(parse, start_redir);
+//	check_eolfile(parse, start_redir);
 }
 
 void		handle_redirect(t_parse *parse, t_prog *prog)
@@ -107,11 +110,18 @@ void		handle_redirect(t_parse *parse, t_prog *prog)
 				parse->replace_str[parse->i_str + 1][0] == '>')
 		{
 			prog->flag_redirect = e_append_redirect;
+			parse->replace_str[parse->i_str][0] = '\0';
 			parse->i_str++;
 		}
+		if (prog->redirect_file != NULL)
+		{
+			free(prog->redirect_file);
+			prog->redirect_file = NULL;
+		}
+		parse->replace_str[parse->i_str][0] = '\0';
 		parse->i_str++;
 		start_redir = parse->i_str;
-		line_move(parse);
+		redirect_line_move(parse);
 		set_redirect_file(parse, prog, start_redir);
 		prog->redirect_fd = open_redirect(parse, prog->flag_redirect, \
 				prog->redirect_file);

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:30:06 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/30 02:17:24 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/11 00:46:22 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,13 @@ int			set_word(t_parse *parse, int *i, t_prog *prog)
 	return (0);
 }
 
-t_prog *set_output_str(t_parse *parse)
+void			set_output_str(t_parse *parse, t_prog *prog)
 {
 	int		i;
-	t_prog	*prog;
 
 	i = parse->start_command;
-	prog = ft_list_last_content(parse->shell->progs_list);
 	if (!(prog->count_args = word_counter(parse)))
-	{
-		parse->error_flag = 1;
-		return (NULL);
-	}
+		return ;
 	prog->prog_args = (char **)malloc(sizeof(char *) * (prog->count_args + 1));
 	prog->prog_args[prog->count_args] = NULL;
 	while (i < parse->i_str)
@@ -119,5 +114,4 @@ t_prog *set_output_str(t_parse *parse)
 		else
 			i++;
 	}
-	return (prog);
 }

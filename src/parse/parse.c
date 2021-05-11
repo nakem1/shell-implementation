@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/09 16:52:31 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/11 02:59:39 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void		print_fn(t_shell *shell)
 		j = 0;
 		i = 0;
 		tmp = list->content;
-		while (tmp->prog_args[j] != NULL)
+		while (tmp->prog_args != NULL && tmp->prog_args[j] != NULL)
 		{
 			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
 			j++;
@@ -135,39 +135,41 @@ void		print_fn(t_shell *shell)
 	printf("_______________________________________________END_OF_LIST___\n\n\n");
 }
 
-int			main(int argc, char **argv, char **env)
-{
-	// int				i;
-	int				global;
-	t_shell			*shell;
-	int				end_command;
-	// t_prog		*tmp;
-	// t_list		*list;
+//int			main(int argc, char **argv, char **env)
+//{
+//	// int				i;
+//	int				global;
+//	t_shell			*shell;
+//	int				end_command;
+//	// t_prog		*tmp;
+//	// t_list		*list;
+//
+//	// i = 0;
+//	end_command = 0;
+//	global = 0;
+//	(void)argc;
+//	(void)argv;
+//	(void)env;
+//	while ((end_command = parse(&shell, argv[1], env, &global)) == -1)
+//	{
+//		if (shell == NULL)
+//		{
+//			printf("SYNTAX ERROR\n");
+//			return (1);
+//		}
+//		print_fn(shell);
+//		free_shell(&shell);
+//	}
+//	if (end_command != 0)
+//	{
+//		handle_errors(end_command);
+//		return (1);
+//	}
+//	print_fn(shell);	
+//	while (1);
+//	return (0);
+//}
+//// TODO echo $?
+//// TODO доделать редиректы на открытие файлов в любом месте команды
+//// TODO протестить переделанный парсер
 
-	// i = 0;
-	end_command = 0;
-	global = 0;
-	(void)argc;
-	(void)argv;
-	(void)env;
-	while ((end_command = parse(&shell, argv[1], env, &global)) == -1)
-	{
-		if (shell == NULL)
-		{
-			printf("SYNTAX ERROR\n");
-			return (1);
-		}
-		print_fn(shell);
-		free_shell(&shell);
-	}
-	if (end_command != 0)
-	{
-		handle_errors(end_command);
-		return (1);
-	}
-	print_fn(shell);	
-	return (0);
-}
-// TODO echo $?
-// TODO доделать редиректы на открытие файлов в любом месте команды
-// TODO протестить переделанный парсер

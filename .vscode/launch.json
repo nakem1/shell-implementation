@@ -28,7 +28,7 @@
 			"program": "${workspaceFolder}/minishell",
 			"args": 
 			[
-				"e > ",
+				" ",
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

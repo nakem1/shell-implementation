@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/09 16:45:11 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/11 00:46:30 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ typedef struct		s_parse
 }					t_parse;
 
 void		line_division(t_parse *parse);
-void		line_move(t_parse *parse);
+void		line_move(t_parse *parse, t_prog *prog);
+void		redirect_line_move(t_parse *parse);
 int			parse(t_shell **shell, char *str, char **env, int *global);
 void		skip_spaces(t_parse *parse, int *i);
 int			skip_alpha(t_parse *parse, int *i);
-t_prog		*set_output_str(t_parse *parse);
+void		set_output_str(t_parse *parse, t_prog *prog);
 void		copy_env_tostr(t_parse *parse, int i, char **prog_args, int *j);
 int			word_counter(t_parse *parse);
 int			count_letters_inword(t_parse *parse, int i);

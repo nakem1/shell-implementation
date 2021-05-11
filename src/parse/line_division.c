@@ -6,13 +6,13 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/09 17:25:50 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/10 19:46:19 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-void			line_move(t_parse *parse)
+void			line_move(t_parse *parse, t_prog *prog)
 {
 	int *i;
 
@@ -20,7 +20,9 @@ void			line_move(t_parse *parse)
 	while (parse->str[*i] != '\0' && parse->str[*i] != '|'
 			&& parse->str[*i] != ';' && parse->error_flag == 0)
 	{
-		if (parse->str[*i] == '\"' || parse->str[*i] == '\''
+		if (parse->str[*i] == '>' || parse->str[*i] == '<')
+			handle_redirect(parse, prog);
+		else if (parse->str[*i] == '\"' || parse->str[*i] == '\''
 				|| parse->str[*i] == '\\')
 			handle_shielding(parse);
 		else if (parse->str[*i] == ' ')
@@ -30,8 +32,6 @@ void			line_move(t_parse *parse)
 		}
 		else if (parse->str[parse->i_str] == '$')
 			handle_env(parse);
-		else if (parse->str[*i] != '>' && parse->str[*i] != '<')
-			handle_redirect(parse, )
 		else
 			parse->i_str++;
 	}
@@ -119,11 +119,11 @@ void			line_division(t_parse *parse)
 
 	parse->number_args = 0;
 	parse->start_command = parse->i_str;
-	line_move(parse);
+	prog = ft_list_last_content(parse->shell->progs_list);
+	line_move(parse, prog);
 	if (parse->error_flag != 0)
 		return ;
-	if (!(prog = set_output_str(parse)))
-		return ;
-	handle_redirect(parse, prog);
+	set_output_str(parse, prog);
+	// handle_redirect(parse, prog);
 	handle_semicolon_pipe(parse, prog); // увеличить каунт прог и расставить флаги
 }

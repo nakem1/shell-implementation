@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 04:37:40 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/09 16:50:43 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/10 23:22:58 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,28 @@ void		handle_errors(int flag_error)
 				with a script\x1b[0m\n");
 	else if (flag_error == e_file_not_found)
 		printf("\x1b[4;35mNO SUCH FILE(((\x1b[0m\n");
+}
+
+void		redirect_line_move(t_parse *parse)
+{
+	int *i;
+
+	i = &(parse->i_str);
+	while (parse->str[*i] == ' ')
+	{
+		parse->replace_str[*i][0] = -1;
+		*i += 1;
+	}
+	while (parse->str[*i] != '\0' && parse->str[*i] != '|'
+			&& parse->str[*i] != ';' && parse->error_flag == 0 && \
+			parse->str[*i] != ' ')
+	{
+		if (parse->str[*i] == '\"' || parse->str[*i] == '\''
+				|| parse->str[*i] == '\\')
+			handle_shielding(parse);
+		else if (parse->str[parse->i_str] == '$')
+			handle_env(parse);
+		else
+			parse->i_str++;
+	}
 }
