@@ -17,6 +17,36 @@
 // 		}
 // 	]
 // }
+// {
+// 	"version": "0.2.0",
+// 	"configurations":
+// 	[
+// 		{
+// 			"name": "(lldb) Запустить",
+// 			"type": "lldb",
+// 			"request": "launch",
+// 			"program": "${workspaceFolder}/minishell",
+// 			"args": 
+// 			[
+// 				" ",
+// 			],
+// 			"stopAtEntry": false,
+// 			"cwd": "${workspaceFolder}",
+// 			"environment": [ { "name": "squid", "value": "clam" } ],
+// 			"externalConsole": false,
+// 			"MIMode": "lldb"
+// 		},
+// 		{
+// 			"name": "(lldb) Подключить",
+// 			"type": "lldb",
+// 			"request": "attach",
+// 			"program": "${workspaceFolder}/minishell}",
+// 			"processId": "${command:pickProcess}",
+// 			"MIMode": "lldb"
+// 		}
+// 	]
+// }
+
 {
 	"version": "0.2.0",
 	"configurations":
@@ -25,10 +55,9 @@
 			"name": "(lldb) Запустить",
 			"type": "lldb",
 			"request": "launch",
-			"program": "${workspaceFolder}/minishell",
+			"program": "${workspaceFolder}/src/a.out",
 			"args": 
 			[
-				" ",
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
@@ -40,9 +69,10 @@
 			"name": "(lldb) Подключить",
 			"type": "lldb",
 			"request": "attach",
-			"program": "${workspaceFolder}/minishell}",
+			"program": "${workspaceFolder}/src/a.out}",
 			"processId": "${command:pickProcess}",
 			"MIMode": "lldb"
 		}
 	]
 }
+
