@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:20:28 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 03:46:33 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/16 19:05:56 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ typedef struct		s_history
 	int				i;
 }					t_history;
 
+void		handler(char *str, char **env);
 
 #endif

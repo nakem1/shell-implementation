@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 02:16:35 by lmurray           #+#    #+#             */
-/*   Updated: 2020/11/04 06:00:20 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/16 20:40:20 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	if (!s1)
-		return (NULL);
+	{
+		str = ft_strdup(s2);
+		return (str);
+	}
 	n = ft_strlen(s1) + ft_strlen(s2);
 	if (!(str = (char *)malloc((n * sizeof(char)) + 1)))
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 04:39:52 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/16 21:11:21 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ void	handle_command(char *str, t_history *history)
 {
 	char	*tmp;
 
-	tmp = history->tmp_str;
 	if (ft_strcmp(str, "\e[D") && ft_strcmp(str, "\e[C")
 		&& ft_strcmp(str, "\034") && ft_strcmp(str, "\4"))
 	{
-		history->tmp_str = ft_strjoin(history->tmp_str, str);
-		if (!tmp)
-			free(tmp);
+		tmp = ft_strjoin(history->tmp_str, str);
+		if (history->tmp_str != NULL)
+			free(history->tmp_str);
+		history->tmp_str = tmp;
 		ft_putstr_fd(str, 1);
 	}
 }
 
-void	press_enter(t_history *history, t_termcap *termcap)
+void	press_enter(t_history *history, t_termcap *termcap, char **envp)
 {
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag |= (ECHO);
@@ -75,6 +75,20 @@ void	press_enter(t_history *history, t_termcap *termcap)
 	tcsetattr(0, TCSANOW, &(termcap->term));
 	if (history->tmp_str != NULL)
 		ft_list_push_front(&history->list, history->tmp_str);
+	write(1, "\n", 1);
+	handler(history->tmp_str, envp);	
+	tcgetattr(0, &(termcap->term));
+	termcap->term.c_lflag &= ~(ECHO);
+	termcap->term.c_lflag &= ~(ICANON);
+	termcap->term.c_lflag &= ~(ISIG);
+	tcsetattr(0, TCSANOW, &(termcap->term));
+	tgetent(0, termcap->name_term);
+	tputs(save_cursor, 1, ft_putchar);
+	if (history->tmp_str != NULL)
+	{
+		free(history->tmp_str);
+		history->tmp_str = NULL;
+	}
 }
 
 int		main(int argc, char **argv, char const **envp)
@@ -99,12 +113,14 @@ int		main(int argc, char **argv, char const **envp)
 		else if (!ft_strcmp(str, "\177"))// && !strcmp(str, "\177"))
 			delete_symbol();
 		else if (!ft_strcmp(str, "\n"))
-			press_enter(history, termcap);
+			press_enter(&history, &termcap, (char **)envp);
 		else if (!ft_strcmp(str, "\4"))
 			return (0);
 		else
+		{
 			handle_command(str, &history);
-			// write(1, str, l);
+			// printf("%s\n", history.tmp_str);
+		}
 	} 
 		// write(1, str, l);
 	write(1, "\n", l);

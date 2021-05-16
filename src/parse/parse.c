@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/13 03:10:17 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/16 19:05:48 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,27 +135,24 @@ void		print_fn(t_shell *shell)
 	printf("_______________________________________________END_OF_LIST___\n\n\n");
 }
 
-int			main(int argc, char **argv, char **env)
+// TODO echo $?
+// TODO доделать редиректы на открытие файлов в любом месте команды
+// TODO протестить переделанный парсер
+
+void	handler(char *str, char **env)
 {
-	// int				i;
 	int				global;
 	t_shell			*shell;
 	int				end_command;
-	// t_prog		*tmp;
-	// t_list		*list;
 
-	// i = 0;
 	end_command = 0;
 	global = 0;
-	(void)argc;
-	(void)argv;
-	(void)env;
-	while ((end_command = parse(&shell, argv[1], env, &global)) == -1)
+	while ((end_command = parse(&shell, str, env, &global)) == -1)
 	{
 		if (shell == NULL)
 		{
 			printf("SYNTAX ERROR\n");
-			return (1);
+			return ;
 		}
 		print_fn(shell);
 		free_shell(&shell);
@@ -163,12 +160,8 @@ int			main(int argc, char **argv, char **env)
 	if (end_command != 0)
 	{
 		handle_errors(end_command);
-		return (1);
+		// return (1);
 	}
 	print_fn(shell);	
-	while (1);
-	return (0);
+	// return (0);
 }
-// TODO echo $?
-// TODO доделать редиректы на открытие файлов в любом месте команды
-// TODO протестить переделанный парсер
