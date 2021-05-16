@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 21:11:21 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/16 21:19:16 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	handle_command(char *str, t_history *history)
 	}
 }
 
-void	press_enter(t_history *history, t_termcap *termcap, char **envp)
+char		press_enter(t_history *history, t_termcap *termcap)
 {
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag |= (ECHO);
@@ -76,31 +76,19 @@ void	press_enter(t_history *history, t_termcap *termcap, char **envp)
 	if (history->tmp_str != NULL)
 		ft_list_push_front(&history->list, history->tmp_str);
 	write(1, "\n", 1);
-	handler(history->tmp_str, envp);	
-	tcgetattr(0, &(termcap->term));
-	termcap->term.c_lflag &= ~(ECHO);
-	termcap->term.c_lflag &= ~(ICANON);
-	termcap->term.c_lflag &= ~(ISIG);
-	tcsetattr(0, TCSANOW, &(termcap->term));
-	tgetent(0, termcap->name_term);
-	tputs(save_cursor, 1, ft_putchar);
-	if (history->tmp_str != NULL)
 	{
 		free(history->tmp_str);
 		history->tmp_str = NULL;
 	}
+	return (history->)
 }
 
-int		main(int argc, char **argv, char const **envp)
+char		*termcaps(t_history *history)
 {
 	char			str[2000];
 	int				l;
 	t_termcap		termcap;
-	t_history		history;
 	
-	(void)argc;
-	(void)argv;
-	(void)envp;
 	init_info(&termcap, &history);
 	while (1)
 	{
@@ -113,7 +101,7 @@ int		main(int argc, char **argv, char const **envp)
 		else if (!ft_strcmp(str, "\177"))// && !strcmp(str, "\177"))
 			delete_symbol();
 		else if (!ft_strcmp(str, "\n"))
-			press_enter(&history, &termcap, (char **)envp);
+			return (press_enter(&history, &termcap))
 		else if (!ft_strcmp(str, "\4"))
 			return (0);
 		else
@@ -127,3 +115,7 @@ int		main(int argc, char **argv, char const **envp)
 	return (0);
 }
 
+int			main(int argc, char **argv, char **env)
+{
+	t_history		history;
+}
