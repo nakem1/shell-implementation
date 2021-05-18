@@ -6,12 +6,14 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 21:19:16 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/18 05:04:50 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "main.h"
+
+int				g_indx = 0; // !
 
 int		ft_putchar(int c)
 {
@@ -23,12 +25,13 @@ void	init_info(t_termcap *termcap, t_history *history)
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag &= ~(ECHO);
 	termcap->term.c_lflag &= ~(ICANON);
+	termcap->term.c_lflag &= ~(ISIG);
 	tcsetattr(0, TCSANOW, &(termcap->term));
 	tgetent(0, termcap->name_term);
 	tputs(save_cursor, 1, ft_putchar);
 	history->tmp_str = NULL;
-	history->list = NULL;
 	history->i = 0;
+	history->errors = 0;
 }
 
 void	previous_command(void)
@@ -66,7 +69,7 @@ void	handle_command(char *str, t_history *history)
 	}
 }
 
-char		press_enter(t_history *history, t_termcap *termcap)
+void	press_enter(t_history *history, t_termcap *termcap)
 {
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag |= (ECHO);
@@ -76,20 +79,17 @@ char		press_enter(t_history *history, t_termcap *termcap)
 	if (history->tmp_str != NULL)
 		ft_list_push_front(&history->list, history->tmp_str);
 	write(1, "\n", 1);
-	{
-		free(history->tmp_str);
-		history->tmp_str = NULL;
-	}
-	return (history->)
+	free(termcap->name_term);
+	// return (history->tmp_str);
 }
 
-char		*termcaps(t_history *history)
+void		termcaps(t_history *history)
 {
 	char			str[2000];
 	int				l;
 	t_termcap		termcap;
-	
-	init_info(&termcap, &history);
+
+	init_info(&termcap, history);
 	while (1)
 	{
 		l = read(0, str, 100);
@@ -101,21 +101,54 @@ char		*termcaps(t_history *history)
 		else if (!ft_strcmp(str, "\177"))// && !strcmp(str, "\177"))
 			delete_symbol();
 		else if (!ft_strcmp(str, "\n"))
-			return (press_enter(&history, &termcap))
+		{
+			press_enter(history, &termcap);
+			break ;
+		}
 		else if (!ft_strcmp(str, "\4"))
-			return (0);
+		{
+			history->errors = -1;
+			break ;
+		}
 		else
 		{
-			handle_command(str, &history);
+			handle_command(str, history);
 			// printf("%s\n", history.tmp_str);
 		}
 	} 
-		// write(1, str, l);
-	write(1, "\n", l);
-	return (0);
 }
+
+// void		prompt(char **env)
+// {
+// 	write
+// }
+
 
 int			main(int argc, char **argv, char **env)
 {
 	t_history		history;
+
+	(void)argc;
+	(void)argv;
+	// (void)env;
+	while (1)
+	{
+		// promtp(env);
+		termcaps(&history);
+		// if (g_indx == 1)
+			// while(1);
+		if (history.errors != 0 && history.errors != -1)
+			handle_errors(history.errors);
+		else if (history.errors == -1)
+		{
+			write(1, "exit\n", 5);
+			return (0);
+		}
+		// write(1, history.tmp_str, ft_strlen(history.tmp_str));
+		handler(history.tmp_str, env);
+		free(history.tmp_str);
+		history.tmp_str = NULL;
+		g_indx++;
+	}
 }
+// TODO trouble with lists

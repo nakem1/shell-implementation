@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/13 23:20:28 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 00:07:13 by lmurray          ###   ########.fr       */
+/*   Created: 2021/05/18 00:17:33 by lmurray           #+#    #+#             */
+/*   Updated: 2021/05/18 00:24:22 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "errors.h"
+#include <stdio.h>
 
-# include <term.h>
-# include <termios.h>
-# include <libft.h>
-# include "errors.h"
-
-typedef struct		s_termcap
+void		handle_errors(int flag_error)
 {
-	struct termios	term;
-	char			*name_term;
-}					t_termcap;
-
-typedef struct		s_history
-{
-	t_list			*list;
-	char			*tmp_str;
-	int				i;
-	int				errors;
-}					t_history;
-
-void		handler(char *str, char **env);
-
-#endif
+	if (flag_error == 1)
+		printf("\x1b[31mSYNTAX ERROR. PLS man ne nado dushit\x1b[0m\n");
+	else if (flag_error == e_memory)
+		printf("\x1b[37;43mMEMORY ERROR. Not enough memory. Free up memory \
+				with a script\x1b[0m\n");
+	else if (flag_error == e_file_not_found)
+		printf("\x1b[4;35mNO SUCH FILE(((\x1b[0m\n");
+}

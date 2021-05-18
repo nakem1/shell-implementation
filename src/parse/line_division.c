@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/10 19:46:19 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/18 03:24:06 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char			*get_need_env(t_parse *parse, int j)
 		}
 		i++;
 	}
+	free(str_env);
 	return (NULL);
 }
 // исправить этот бред сумасшедшего

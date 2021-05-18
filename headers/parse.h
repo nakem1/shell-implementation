@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/11 00:46:30 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/18 00:04:16 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,7 @@
 
 # include "libft.h"
 # include "structs.h"
-
-enum				e_errors
-{
-	e_memory = 2,
-	e_file_not_found,
-};
+# include "errors.h"
 
 typedef struct		s_parse
 {

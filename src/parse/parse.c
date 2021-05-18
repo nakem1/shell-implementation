@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 19:05:48 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/18 03:18:18 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ void		print_fn(t_shell *shell)
 }
 
 // TODO echo $?
-// TODO доделать редиректы на открытие файлов в любом месте команды
-// TODO протестить переделанный парсер
+// TODO prompt
+// TODO history
 
 void	handler(char *str, char **env)
 {
@@ -162,6 +162,7 @@ void	handler(char *str, char **env)
 		handle_errors(end_command);
 		// return (1);
 	}
-	print_fn(shell);	
+	print_fn(shell);
+	free_shell(&shell);
 	// return (0);
 }

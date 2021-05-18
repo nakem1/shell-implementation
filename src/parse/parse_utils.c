@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 04:37:40 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/10 23:22:58 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/18 00:18:18 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,6 @@ int			open_redirect(t_parse *parse, int type, char *redirect_file)
 	else
 		printf("something wrong with redirect");
 	return (fd);
-}
-
-void		handle_errors(int flag_error)
-{
-	if (flag_error == 1)
-		printf("\x1b[31mSYNTAX ERROR. PLS man ne nado dushit\x1b[0m\n");
-	else if (flag_error == e_memory)
-		printf("\x1b[37;43mMEMORY ERROR. Not enough memory. Free up memory \
-				with a script\x1b[0m\n");
-	else if (flag_error == e_file_not_found)
-		printf("\x1b[4;35mNO SUCH FILE(((\x1b[0m\n");
 }
 
 void		redirect_line_move(t_parse *parse)

@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/13 23:20:28 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 00:07:13 by lmurray          ###   ########.fr       */
+/*   Created: 2021/05/18 00:04:19 by lmurray           #+#    #+#             */
+/*   Updated: 2021/05/18 00:18:50 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef ERRORS_H
+# define ERRORS_H
 
-# include <term.h>
-# include <termios.h>
-# include <libft.h>
-# include "errors.h"
-
-typedef struct		s_termcap
+enum				e_errors
 {
-	struct termios	term;
-	char			*name_term;
-}					t_termcap;
+	e_memory = 2,
+	e_file_not_found,
+};
 
-typedef struct		s_history
-{
-	t_list			*list;
-	char			*tmp_str;
-	int				i;
-	int				errors;
-}					t_history;
-
-void		handler(char *str, char **env);
+void		handle_errors(int flag_error);
 
 #endif
