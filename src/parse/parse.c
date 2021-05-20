@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 03:18:18 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/20 04:40:58 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,18 +151,19 @@ void	handler(char *str, char **env)
 	{
 		if (shell == NULL)
 		{
+			handle_errors(end_command); // not ready
 			printf("SYNTAX ERROR\n");
 			return ;
 		}
-		print_fn(shell);
+		print_fn(shell); // ? СЮДА ВСТАВИТЬ КОД РИНА
 		free_shell(&shell);
 	}
 	if (end_command != 0)
 	{
-		handle_errors(end_command);
+		handle_errors(end_command); // not ready
 		// return (1);
 	}
-	print_fn(shell);
+	print_fn(shell); // ? СЮДА ВСТАВИТЬ КОД РИНА
 	free_shell(&shell);
 	// return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 05:04:50 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/20 04:37:23 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,90 @@ void	init_info(t_termcap *termcap, t_history *history)
 	tgetent(0, termcap->name_term);
 	tputs(save_cursor, 1, ft_putchar);
 	history->tmp_str = NULL;
-	history->i = 0;
+	history->i = -1;
 	history->errors = 0;
 }
 
-void	previous_command(void)
+int		move_history(t_history *history, int direction)
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tigetstr("ed"), 1, ft_putchar);
-	write(1, "previous", 8);
+	int size;
+
+	size = ft_list_size(history->list);
+	if (size == 0)
+		return (1);
+	if (direction == -1)
+	{
+		if (history->i <= -1)
+			return (0);
+		else
+			history->i -= 1;
+	}
+	else
+	{
+		if (history->i >= size - 1)
+			return (0);
+		else
+			history->i += 1;
+	}
+	return (2);
 }
 
-void	next_command(void)
+void	previous_command(t_history *history)
 {
+	int		flag;
+	t_list	*list_tmp;
+	char	*str;
+
+	flag = move_history(history, 1);
+	if (flag == 1 || flag == 0)
+		return ;
 	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tigetstr("ed"), 1, ft_putchar);
-	write(1, "next", 4);
+	// tputs(tigetstr("ed"), 1, ft_putchar);
+	tputs(tgetstr("cd", 0), 1, ft_putchar);
+	if (flag == 2)
+	{
+		list_tmp = ft_list_at(history->list, history->i);
+		str = (char *)list_tmp->content;
+		ft_putstr_fd(str, 1);
+	}
 }
 
-void	delete_symbol(void)
+void	next_command(t_history *history)
 {
-	tputs(cursor_left, 1, ft_putchar);
-	tputs(tgetstr("dc", 0), 1, ft_putchar);
+	int		flag;
+	t_list	*list_tmp;
+	char	*str;
+
+	flag = move_history(history, -1);
+	if (flag == 1)
+		return ;
+	tputs(restore_cursor, 1, ft_putchar);
+	// tputs(tigetstr("ed"), 1, ft_putchar);
+	tputs(tgetstr("cd", 0), 1, ft_putchar);
+	if (history->i == -1)
+	{
+		ft_putstr_fd(history->tmp_str, 1);
+		return ;
+	}
+	if (flag == 2)
+	{
+		list_tmp = ft_list_at(history->list, history->i);
+		str = (char *)list_tmp->content;
+		ft_putstr_fd(str, 1);
+	}
+}
+
+void	delete_symbol(t_history *history)
+{
+	int		size_str;
+
+	size_str = ft_strlen(history->tmp_str);
+	if (size_str)
+	{
+		tputs(cursor_left, 1, ft_putchar);
+		tputs(tgetstr("dc", 0), 1, ft_putchar);
+		history->tmp_str[size_str - 1] = '\0';
+	}
 }
 
 void	handle_command(char *str, t_history *history)
@@ -69,18 +131,27 @@ void	handle_command(char *str, t_history *history)
 	}
 }
 
-void	press_enter(t_history *history, t_termcap *termcap)
+int		press_enter(t_history *history, t_termcap *termcap)
 {
-	tcgetattr(0, &(termcap->term));
-	termcap->term.c_lflag |= (ECHO);
-	termcap->term.c_lflag |= (ICANON);
-	termcap->term.c_lflag |= (ISIG);
-	tcsetattr(0, TCSANOW, &(termcap->term));
+	char	*dup;
+	int		return_flag;
+
+	return_flag = 0;
 	if (history->tmp_str != NULL)
-		ft_list_push_front(&history->list, history->tmp_str);
+	{
+		tcgetattr(0, &(termcap->term));
+		termcap->term.c_lflag |= (ECHO);
+		termcap->term.c_lflag |= (ICANON);
+		termcap->term.c_lflag |= (ISIG);
+		tcsetattr(0, TCSANOW, &(termcap->term));
+		dup = ft_strdup(history->tmp_str);
+		ft_list_push_front(&history->list, dup);
+		free(termcap->name_term);
+	}
+	else
+		return_flag = 1;
 	write(1, "\n", 1);
-	free(termcap->name_term);
-	// return (history->tmp_str);
+	return (return_flag);
 }
 
 void		termcaps(t_history *history)
@@ -95,15 +166,16 @@ void		termcaps(t_history *history)
 		l = read(0, str, 100);
 		str[l] = 0;
 		if (!ft_strcmp(str, "\e[A"))
-			previous_command();
+			previous_command(history);
 		else if (!ft_strcmp(str, "\e[B"))
-			next_command();
+			next_command(history);
 		else if (!ft_strcmp(str, "\177"))// && !strcmp(str, "\177"))
-			delete_symbol();
+			delete_symbol(history);
 		else if (!ft_strcmp(str, "\n"))
 		{
-			press_enter(history, &termcap);
-			break ;
+			// press_enter(history, &termcap);
+			if (!press_enter(history, &termcap))
+				break ;
 		}
 		else if (!ft_strcmp(str, "\4"))
 		{
@@ -123,7 +195,6 @@ void		termcaps(t_history *history)
 // 	write
 // }
 
-
 int			main(int argc, char **argv, char **env)
 {
 	t_history		history;
@@ -131,6 +202,7 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	// (void)env;
+	history.list = NULL;
 	while (1)
 	{
 		// promtp(env);
@@ -152,3 +224,5 @@ int			main(int argc, char **argv, char **env)
 	}
 }
 // TODO trouble with lists
+// TODO вторая стрелка. Сега при пустом энтере
+// TODO стрелка вверх, энтер

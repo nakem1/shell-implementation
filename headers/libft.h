@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/13 03:13:53 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/19 03:19:28 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int					ft_lstsize(t_list *lst);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 	void (*del)(void *));
 t_list				*get_stack(int argc, int *digits);
-void				print_list(t_list *list, t_list *list1);
+void				print_list(t_list *list);
 
 void				ft_skip_spaces(char *str, int *i);
 int					only_digits_ln(char *str);
