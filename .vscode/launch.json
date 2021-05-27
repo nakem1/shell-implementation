@@ -8,8 +8,10 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/minishell",
-			"args": [],
+			"program": "${workspaceFolder}/a.out",
+			"args": [
+				"i ; d ; ",
+			],
 			"cwd": "${workspaceFolder}"
 		}
 	]

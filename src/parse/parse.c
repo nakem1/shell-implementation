@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/27 16:49:45 by frariel          ###   ########.fr       */
+/*   Updated: 2021/05/27 19:06:18 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,42 @@ t_parse		*init_struct(char *str, char **env, int *global)
 	return (parse);
 }
 
+int			check_empty_token(char *str, char delim)
+{
+	int i;
+	int j;
+	int size_list;
+	int	flag;
+
+	if (!(i = ft_strindx(str, delim)))
+		return (1);
+	size_list = ft_strlen(str);
+	flag = 0;
+	while (str[i] != '\0')
+	{
+		j = i;
+		while (str[j] != delim)
+		{
+			if (j == 0 || j == size_list - 1)
+				return (1);
+			if (str[j] != ' ')
+				flag = 1;
+			j--;
+		}
+		j = i;
+		while (str[j] != delim)
+		{
+			if (j == 0 || j == size_list - 1)
+				return (1);
+				if (str[j] != ' ')
+					flag = 1;
+			j++;
+		}
+		if (flag == 0)
+			return (1);
+	}
+}
+
 /*
 ** 		Function:			t_shell		*parse(char *str);
 **
@@ -83,8 +119,8 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 	j = 0;
 	if (!(parse = init_struct(str, env, global)))
 		return (-1);
-	// if (check_str(str))
-	// 	error_output(/* something */);
+	if (check_empty_token(str, ';') || check_empty_token(str, '|'))
+		error_output(/* something */);
 	while (j < parse->shell->count_progs && parse->error_flag == 0 && \
 			parse->this_semicolon != 1)
 	{

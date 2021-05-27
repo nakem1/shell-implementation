@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/27 14:48:32 by frariel          ###   ########.fr       */
+/*   Updated: 2021/05/27 17:23:56 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int		ft_putchar(int c)
 
 void	init_info(t_termcap *termcap, t_history *history)
 {
+	termcap->name_term = ft_strdup("xterm-256color");
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag &= ~(ECHO);
 	termcap->term.c_lflag &= ~(ICANON);
 	termcap->term.c_lflag &= ~(ISIG);
 	tcsetattr(0, TCSANOW, &(termcap->term));
 	tgetent(0, termcap->name_term);
-	// tputs(save_cursor, 1, ft_putchar);
+	tputs(save_cursor, 1, ft_putchar);
 	history->tmp_str = NULL;
 	history->i = -1;
 	history->errors = 0;
@@ -186,7 +187,6 @@ void		termcaps(t_history *history)
 		else
 		{
 			handle_command(str, history);
-			// printf("%s\n", history.tmp_str);
 		}
 	}
 }
@@ -194,7 +194,7 @@ void		termcaps(t_history *history)
 void		prompt(char **env)
 {
 	(void)env;
-	write(1, "minishell > ", 12);
+	write(2, "minishell > ", 12);
 }
 
 int			main(int argc, char **argv, char **env)

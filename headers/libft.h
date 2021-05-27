@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/19 03:19:28 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/27 20:03:57 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
 char				*ft_strcat(char *dest, const char *src);
 char				*ft_strchr(const char *s, int c);
+int					ft_strindx(const char *s, int c, int indx);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strstr(const char *haystack, const char *needle);
 int					ft_strcmp(const char *s1, const char *s2);

@@ -16,7 +16,7 @@
         {
             "label": "build gcc",
             "type": "shell",
-            "command": "gcc -Wall -Wextra -Werror -g3 -o minishell -I ./headers src/parse/*.c src/main/*.c src/libft/*.c -ltermcap",
+            "command": "gcc -Wall -Wextra -Werror -g3 -o minishell -I ./headers -I ./rinshell rinshell/*.c src/parse/*.c src/main/*.c src/libft/*.c -ltermcap",
             "group": "build"
         },
         {
