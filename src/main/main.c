@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/20 04:37:23 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/27 14:48:32 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "main.h"
+#include "minishell.h"
 
 int				g_indx = 0; // !
 
@@ -28,7 +29,7 @@ void	init_info(t_termcap *termcap, t_history *history)
 	termcap->term.c_lflag &= ~(ISIG);
 	tcsetattr(0, TCSANOW, &(termcap->term));
 	tgetent(0, termcap->name_term);
-	tputs(save_cursor, 1, ft_putchar);
+	// tputs(save_cursor, 1, ft_putchar);
 	history->tmp_str = NULL;
 	history->i = -1;
 	history->errors = 0;
@@ -146,7 +147,7 @@ int		press_enter(t_history *history, t_termcap *termcap)
 		tcsetattr(0, TCSANOW, &(termcap->term));
 		dup = ft_strdup(history->tmp_str);
 		ft_list_push_front(&history->list, dup);
-		free(termcap->name_term);
+		// free(termcap->name_term);
 	}
 	else
 		return_flag = 1;
@@ -187,25 +188,27 @@ void		termcaps(t_history *history)
 			handle_command(str, history);
 			// printf("%s\n", history.tmp_str);
 		}
-	} 
+	}
 }
 
-// void		prompt(char **env)
-// {
-// 	write
-// }
+void		prompt(char **env)
+{
+	(void)env;
+	write(1, "minishell > ", 12);
+}
 
 int			main(int argc, char **argv, char **env)
 {
 	t_history		history;
-
+	char			**envp;
 	(void)argc;
 	(void)argv;
 	// (void)env;
+	init_envp(&envp, env);
 	history.list = NULL;
 	while (1)
 	{
-		// promtp(env);
+		prompt(env);
 		termcaps(&history);
 		// if (g_indx == 1)
 			// while(1);
@@ -217,7 +220,7 @@ int			main(int argc, char **argv, char **env)
 			return (0);
 		}
 		// write(1, history.tmp_str, ft_strlen(history.tmp_str));
-		handler(history.tmp_str, env);
+		handler(history.tmp_str, &envp);
 		free(history.tmp_str);
 		history.tmp_str = NULL;
 		g_indx++;

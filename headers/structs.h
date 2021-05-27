@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/06 18:46:48 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/24 17:43:51 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+# include "libft.h"
 
 /*
 **		e_pipe(0) |
@@ -45,7 +46,7 @@ typedef struct		s_prog
 	char			*prog_name;
 	char			**prog_args;
 	int				count_args;
-	int				flag_separator;
+	int				flag_separator; // if -1 -> 1 prog
 	int				flag_redirect;
 	char			*redirect_file;
 	int				redirect_fd;

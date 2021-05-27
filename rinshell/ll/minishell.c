@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 22:50:23 by frariel           #+#    #+#             */
-/*   Updated: 2021/04/19 22:14:20 by frariel          ###   ########.fr       */
+/*   Updated: 2021/05/21 15:57:05 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		main(int argc, char **argv, char **envp)
 	convert_env(envp, &list);
 	sort_list(&list);
 	env_arr = convert_list(list);
+	envp = env_arr;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	// signal(SIGINT, &sig_handler);
@@ -175,7 +176,12 @@ void	clr_arr(char **str_ar)
 
 int		cd(char *path)
 {
-	return (chdir(path));
+	int	retval;
+
+	retval = chdir(path);
+	if (retval < 0)
+		printf("minishell: cd: %s\n", strerror(errno));
+	return (retval);
 }
 
 void	pwd()

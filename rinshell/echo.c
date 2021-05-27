@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:47:44 by frariel           #+#    #+#             */
-/*   Updated: 2021/04/19 22:13:16 by frariel          ###   ########.fr       */
+/*   Updated: 2021/05/11 13:02:03 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		check_arg(char *str)
 	if (str[i] == '-')
 	{
 		i++;
-		if (str[i] == '\0')
+		if (str[i] == '\0' && i != 1)
 			return (2);
 		while (str[i] != '\0')
 		{
@@ -30,7 +30,7 @@ int		check_arg(char *str)
 			i++;
 		}
 	}
-	if (str[i] == '\0')
+	if (str[i] == '\0' && i != 1)
 		return (1);
 	return (0);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/20 04:40:58 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/27 16:49:45 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+#include "minishell.h"
 
 void		add_prog(t_shell *shell)
 {
@@ -106,48 +107,49 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 		return (0);
 }
 
-void		print_fn(t_shell *shell)
-{
-	int		i;
-	int		j;
-	t_prog	*tmp;
-	t_list	*list;
+// void		print_fn(t_shell *shell)
+// {
+// 	int		i;
+// 	int		j;
+// 	t_prog	*tmp;
+// 	t_list	*list;
 
-	list = shell->progs_list;
-	while (list != NULL)
-	{
-		j = 0;
-		i = 0;
-		tmp = list->content;
-		while (tmp->prog_args != NULL && tmp->prog_args[j] != NULL)
-		{
-			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
-			j++;
-			i++;
-		}
-		if (tmp->flag_redirect != -1)
-			printf("flag_redirect == %d\n", tmp->flag_redirect);
-		if (tmp->flag_separator != -1)
-			printf("flag_separator == %d\n", tmp->flag_separator);
-		list = list->next;
-		i++;
-	}
-	printf("_______________________________________________END_OF_LIST___\n\n\n");
-}
+// 	list = shell->progs_list;
+// 	while (list != NULL)
+// 	{
+// 		j = 0;
+// 		i = 0;
+// 		tmp = list->content;
+// 		while (tmp->prog_args != NULL && tmp->prog_args[j] != NULL)
+// 		{
+// 			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
+// 			j++;
+// 			i++;
+// 		}
+// 		if (tmp->flag_redirect != -1)
+// 			printf("flag_redirect == %d\n", tmp->flag_redirect);
+// 		if (tmp->flag_separator != -1)
+// 			printf("flag_separator == %d\n", tmp->flag_separator);
+// 		list = list->next;
+// 		i++;
+// 	}
+// 	printf("_______________________________________________END_OF_LIST___\n\n\n");
+// }
 
 // TODO echo $?
 // TODO prompt
 // TODO history
 
-void	handler(char *str, char **env)
+void	handler(char *str, char ***env)
 {
 	int				global;
 	t_shell			*shell;
 	int				end_command;
+	t_prog			*tmp; // DELETE
 
 	end_command = 0;
 	global = 0;
-	while ((end_command = parse(&shell, str, env, &global)) == -1)
+	while ((end_command = parse(&shell, str, *env, &global)) == -1)
 	{
 		if (shell == NULL)
 		{
@@ -155,15 +157,45 @@ void	handler(char *str, char **env)
 			printf("SYNTAX ERROR\n");
 			return ;
 		}
-		print_fn(shell); // ? СЮДА ВСТАВИТЬ КОД РИНА
+		print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
 		free_shell(&shell);
 	}
+	tmp = shell->progs_list->content;
 	if (end_command != 0)
 	{
 		handle_errors(end_command); // not ready
 		// return (1);
 	}
-	print_fn(shell); // ? СЮДА ВСТАВИТЬ КОД РИНА
+	// printf("LALALA2\n");
+	print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
 	free_shell(&shell);
 	// return (0);
+}
+
+
+void	init_envp(char ***envp, char **env_start)
+{
+	t_env	*list;
+	char	**array;
+	char	dir[MAXPATHLEN];
+	char	*command;
+
+	array = NULL;
+	list = NULL;
+	convert_env(env_start, &list);
+	sort_list(&list);
+	*envp = convert_list(list);
+	env_list_clear(&list);
+	array = ft_split("unset OLDPWD", ' ');
+	unset(2, array, envp);
+	clear_env_array(array);
+	array = ft_split("export OLDPWD", ' ');
+	export(2, array, envp);
+	clear_env_array(array);
+	getcwd(dir, MAXPATHLEN);
+	command = ft_strjoin("export PWD=", dir);
+	array = ft_split(command, ' ');
+	free(command);
+	export(2, array, envp);
+	clear_env_array(array);
 }

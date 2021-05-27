@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 17:25:37 by lmurray           #+#    #+#             */
-/*   Updated: 2021/02/08 22:37:03 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/27 14:17:59 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@
 ** null-ter-minated strings s1 and s2.
 */
 
-int		ft_strcmp(const char *str1, const char *str2)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	size_t i;
+	int	k;
 
-	i = 0;
-	while (str1[i] != '\0' || str2[i] != '\0')
+	k = 0;
+	while (s1[k] != '\0' && s2[k] != '\0')
 	{
-		if (str1[i] < str2[i])
-			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-		else if ((unsigned char)str1[i] > (unsigned char)str2[i])
-			return (str1[i] - str2[i]);
-		i++;
+		if (s1[k] != s2[k])
+			return ((unsigned char)s1[k] - (unsigned char)s2[k]);
+		k++;
 	}
-	return (0);
+	return ((unsigned char)s1[k] - (unsigned char)s2[k]);
 }

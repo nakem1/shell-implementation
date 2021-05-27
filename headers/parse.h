@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 00:04:16 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:42:36 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ void		handle_semicolon_pipe(t_parse *parse, t_prog *prog);
 void		free_array2d(char **arr);
 void		free_shell(t_shell **shell);
 void		handle_errors(int flag_error);
-
+int			print_fn(t_shell *shell, char ***envp);
 #endif
