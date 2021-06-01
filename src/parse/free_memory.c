@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 05:57:38 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/08 01:56:43 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/28 15:06:42 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ void		free_shell(t_shell **shell)
 {
 	t_list *tmp;
 
-	tmp = (*shell)->progs_list;
-	ft_lstclear((&tmp), &free_prog);
-	free(*shell);
-	*shell = NULL;
+	if (*shell != NULL)
+	{
+		tmp = (*shell)->progs_list;
+		ft_lstclear((&tmp), &free_prog);
+		free(*shell);
+		*shell = NULL;
+	}
 }

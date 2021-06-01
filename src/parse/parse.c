@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/27 19:06:18 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/05/28 15:14:07 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,33 +70,16 @@ int			check_empty_token(char *str, char delim)
 	int size_list;
 	int	flag;
 
-	if (!(i = ft_strindx(str, delim)))
-		return (1);
+	i = 0;
+	if ((i = ft_strindx(str, delim, i)) == -1)
+		return (0);
 	size_list = ft_strlen(str);
 	flag = 0;
-	while (str[i] != '\0')
-	{
-		j = i;
-		while (str[j] != delim)
-		{
-			if (j == 0 || j == size_list - 1)
-				return (1);
-			if (str[j] != ' ')
-				flag = 1;
-			j--;
-		}
-		j = i;
-		while (str[j] != delim)
-		{
-			if (j == 0 || j == size_list - 1)
-				return (1);
-				if (str[j] != ' ')
-					flag = 1;
-			j++;
-		}
-		if (flag == 0)
-			return (1);
-	}
+	LOOP
+	if (flag == 0)
+		return (1);
+	else
+		return (0);
 }
 
 /*
@@ -117,10 +100,10 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 	int			j;
 
 	j = 0;
+	if (check_empty_token(str, ';') || check_empty_token(str, '|'))
+		return (1);
 	if (!(parse = init_struct(str, env, global)))
 		return (-1);
-	if (check_empty_token(str, ';') || check_empty_token(str, '|'))
-		error_output(/* something */);
 	while (j < parse->shell->count_progs && parse->error_flag == 0 && \
 			parse->this_semicolon != 1)
 	{
@@ -184,6 +167,7 @@ void	handler(char *str, char ***env)
 	t_prog			*tmp; // DELETE
 
 	end_command = 0;
+	shell = NULL;
 	global = 0;
 	while ((end_command = parse(&shell, str, *env, &global)) == -1)
 	{
@@ -196,12 +180,12 @@ void	handler(char *str, char ***env)
 		print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
 		free_shell(&shell);
 	}
-	tmp = shell->progs_list->content;
 	if (end_command != 0)
 	{
 		handle_errors(end_command); // not ready
-		// return (1);
+		return ;
 	}
+	tmp = shell->progs_list->content;
 	// printf("LALALA2\n");
 	print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
 	free_shell(&shell);
