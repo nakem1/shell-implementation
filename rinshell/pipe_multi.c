@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 21:12:30 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/27 16:39:59 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 15:40:42 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int		print_fn(t_shell *shell, char ***envp)
 	t_prog	*prog;
 	list = shell->progs_list;
 	prog = list->content;
-	if (shell->count_progs == 1)
+	if (shell->count_progs == 1 && prog->prog_args != NULL)
 		handle_one_prog(prog->count_args, prog->prog_args, envp, 0);
-	else
+	else if (prog->prog_args != NULL)
 		handle_pipeline(list, envp, shell->count_progs);
 	return (0);
 }

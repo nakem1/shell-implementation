@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/27 17:23:56 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 15:06:26 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,15 @@ void	delete_symbol(t_history *history)
 {
 	int		size_str;
 
-	size_str = ft_strlen(history->tmp_str);
-	if (size_str)
+	if (history->tmp_str)
 	{
-		tputs(cursor_left, 1, ft_putchar);
-		tputs(tgetstr("dc", 0), 1, ft_putchar);
-		history->tmp_str[size_str - 1] = '\0';
+		size_str = ft_strlen(history->tmp_str);
+		if (size_str)
+		{
+			tputs(cursor_left, 1, ft_putchar);
+			tputs(tgetstr("dc", 0), 1, ft_putchar);
+			history->tmp_str[size_str - 1] = '\0';
+		}
 	}
 }
 
@@ -156,7 +159,25 @@ int		press_enter(t_history *history, t_termcap *termcap)
 	return (return_flag);
 }
 
-void		termcaps(t_history *history)
+void		prompt(char **env)
+{
+	(void)env;
+	write(2, "minishell > ", 12);
+}
+
+void		ctrl_c(t_termcap *termcap, char **envp)
+{
+	// tcgetattr(0, &(termcap->term));
+	// termcap->term.c_lflag |= (ECHO);
+	// termcap->term.c_lflag |= (ICANON);
+	// termcap->term.c_lflag |= (ISIG);
+	// tcsetattr(0, TCSANOW, &(termcap->term));
+	(void)*termcap;
+	write(1, "\n", 1);
+	prompt(envp);
+}
+
+void		termcaps(t_history *history, char **envp)
 {
 	char			str[2000];
 	int				l;
@@ -178,7 +199,10 @@ void		termcaps(t_history *history)
 			// press_enter(history, &termcap);
 			if (!press_enter(history, &termcap))
 				break ;
+			prompt(envp);
 		}
+		else if (!ft_strcmp(str, "\3"))
+			ctrl_c(&termcap, envp);
 		else if (!ft_strcmp(str, "\4"))
 		{
 			history->errors = -1;
@@ -189,12 +213,6 @@ void		termcaps(t_history *history)
 			handle_command(str, history);
 		}
 	}
-}
-
-void		prompt(char **env)
-{
-	(void)env;
-	write(2, "minishell > ", 12);
 }
 
 int			main(int argc, char **argv, char **env)
@@ -208,8 +226,8 @@ int			main(int argc, char **argv, char **env)
 	history.list = NULL;
 	while (1)
 	{
-		prompt(env);
-		termcaps(&history);
+		prompt(envp);
+		termcaps(&history, envp);
 		// if (g_indx == 1)
 			// while(1);
 		if (history.errors != 0 && history.errors != -1)
