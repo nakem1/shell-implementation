@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 15:58:36 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/27 16:40:11 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 14:36:58 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		file_existence(char *path, char *name, int i)
 	size_t			len;
 
 	dirp = opendir(path);
-	if (dirp == NULL)
+	if (dirp == NULL || ft_strcmp(name, ".") == 0 || ft_strcmp(name, "..") == 0)
 		return (-1);
 	len = ft_strlen(name);
 	while ((dp = readdir(dirp)) != NULL)

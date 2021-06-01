@@ -6,14 +6,11 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 15:52:59 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/27 16:19:21 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 17:00:40 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define OLDPWD 1
-#define PWD 0
-
 
 void	pwd()
 {
@@ -47,7 +44,7 @@ int		cd(int argc, char *path, char ***envp)
 	else
 		set_pwd(dir, envp);
 	free(home_path);
-	return (retval);
+	return (0);
 }
 
 void	set_pwd(char *dir_old, char ***envp)

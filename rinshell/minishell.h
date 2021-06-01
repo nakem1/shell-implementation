@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/27 16:16:53 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 17:00:19 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int		count_words(t_env *list);
 void	clear_env_array(char **env);
 void	env_del_one(t_env **begin_env, char *str);
 char	**env_list_to_arr(t_env *env, int words);
+void	increase_shlvl(char ***envp);
+int		get_shlvl(char *value);
+void	change_shlvl(t_env **begin_env);
 
 char	*dup_var_value(const char *s1);
 char	*dup_var_name(const char *s1);
@@ -62,6 +65,7 @@ void	env_change_elem(t_env **begin_env, char *str);
 int		check_var(char *str, t_env *env);
 void	sort_list(t_env **begin_env);
 void	export(int argc, char **argv, char ***envp);
+void	add_underscore(t_prog *prog, char ***envp, int flag);
 
 int		env(char **envp);
 int		unset(int argc, char **argv, char ***envp);
@@ -72,8 +76,8 @@ int		check_built_in(char **command);
 void	run_built_in(int argc, char **command, char ***envp);
 int		run_path(char **command, char **envp);
 void	run_binary(char **command, char **envp);
-void	handle_pipeline(t_list *list, char ***envp, int count_progs);
-void	handle_one_prog(int argc, char **command, char ***envp, int flag);
+void	handle_pipeline(t_list *list, char ***envp, int count_progs, int *exit_status);
+void	handle_one_prog(t_prog *prog, char ***envp, int flag, int *exit_status);
 void	prog_set_fd(int i, int **fd, int count, int flag);
 int		**init_fd_array(int pipes);
 void	connect_pipes(int **fd, int count);

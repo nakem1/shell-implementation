@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/25 16:45:44 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 17:00:11 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ void	export(int argc, char **argv, char ***envp)
 	sort_list(&list);
 	*envp = convert_list(list);
 	env_list_clear(&list);
+}
+
+void	add_underscore(t_prog *prog, char ***envp, int flag)
+{
+	char	*command_str;
+	char	**full_cmd;
+	int		i;
+
+	i = 0;
+	while (prog->prog_args[i] != NULL)
+		i++;
+	i--;
+	command_str = NULL;
+	full_cmd = NULL;
+	command_str = ft_strjoin("export _=", prog->prog_args[i]);
+	full_cmd = ft_split(command_str, ' ');
+	export(2, full_cmd, envp);
+	clear_env_array(full_cmd);
+	free(command_str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 21:12:30 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 15:40:42 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 16:59:30 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,28 @@ int		print_fn(t_shell *shell, char ***envp)
 {
 	t_list	*list;
 	t_prog	*prog;
+	int		exit_status;
+
+	signal(SIGINT, SIG_IGN);
 	list = shell->progs_list;
+	exit_status = 0;
 	prog = list->content;
 	if (shell->count_progs == 1 && prog->prog_args != NULL)
-		handle_one_prog(prog->count_args, prog->prog_args, envp, 0);
-	else if (prog->prog_args != NULL)
-		handle_pipeline(list, envp, shell->count_progs);
+	{
+		// if (prog->flag_redirect ==
+		add_underscore(prog, envp, 1);
+		handle_one_prog(prog, envp, 0, &exit_status);
+	}
+	else
+	{
+		handle_pipeline(list, envp, shell->count_progs, &exit_status);
+		add_underscore(prog, envp, 1);
+	}
+	if (WIFEXITED(exit_status))
+	{
+		int es = WEXITSTATUS(exit_status);
+		printf("Exit status was %d\n", es);
+	}
 	return (0);
 }
 
@@ -81,7 +97,8 @@ void	prog_set_fd(int i, int **fd, int count, int flag)
 	}
 }
 
-void	handle_pipeline(t_list *list, char ***envp, int count_progs)
+void	handle_pipeline(t_list *list, char ***envp,
+	int count_progs, int *exit_status)
 {
 	int		i;
 	int		**fd;
@@ -97,8 +114,9 @@ void	handle_pipeline(t_list *list, char ***envp, int count_progs)
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
 			prog_set_fd(i, fd, count_progs, 0);
-			handle_one_prog(prog->count_args, prog->prog_args, envp, PIPELINE);
+			handle_one_prog(prog, envp, PIPELINE, exit_status);
 			return ;
 		}
 		list = list->next;
@@ -107,28 +125,31 @@ void	handle_pipeline(t_list *list, char ***envp, int count_progs)
 	prog_set_fd(i, fd, count_progs, 1);
 	i = 0;
 	while (i++ < count_progs)
-		wait(NULL);
+		wait(exit_status);
 }
 
-void	handle_one_prog(int argc, char **command, char ***envp, int flag)
+void	handle_one_prog(t_prog *prog, char ***envp, int flag, int *exit_status)
 {
 	int	pid;
 
-	if (check_built_in(command) == 1)
+	if (check_built_in(prog->prog_args) == 1)
 	{
-		run_built_in(argc, command, envp);
+		run_built_in(prog->count_args, prog->prog_args, envp);
 		if (flag == PIPELINE)
-			exit (0);
+			exit(0);
 	}
 	else if (flag != PIPELINE)
 	{
 		pid = fork();
 		if (pid == 0)
-			run_binary(command, *envp);
-		wait(NULL);
+		{
+			signal(SIGINT, SIG_DFL);
+			run_binary(prog->prog_args, *envp);
+		}
+		wait(exit_status);
 	}
 	else
-		run_binary(command, *envp);
+		run_binary(prog->prog_args, *envp);
 
 }
 
@@ -139,7 +160,7 @@ void	run_binary(char **command, char **envp)
 	else
 	{
 		execve(command[0], command, envp);
-		exit_and_error("No such file or directory", command[0]);
+		exit_and_error(strerror(errno), command[0]);
 	}
 }
 
@@ -160,5 +181,5 @@ int		check_slash(char *str)
 int exit_and_error(char *message, char *command)
 {
 	printf("minishell: %s: %s\n", command, message);
-	exit(0);
+	exit(1);
 }
