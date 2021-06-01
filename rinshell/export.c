@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 17:00:11 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 17:13:53 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	add_underscore(t_prog *prog, char ***envp, int flag)
 	char	**full_cmd;
 	int		i;
 
+	flag = 0;
 	i = 0;
 	while (prog->prog_args[i] != NULL)
 		i++;
