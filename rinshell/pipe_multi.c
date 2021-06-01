@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 21:12:30 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 19:06:45 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 19:43:03 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 #include "minishell.h"
 
+void	set_exit_status(int exit_status, char ***envp);
+void	set_signals(int flag);
+
 int		print_fn(t_shell *shell, char ***envp)
 {
 	t_list	*list;
 	t_prog	*prog;
 	int		exit_status;
 
-	signal(SIGINT, SIG_IGN);
 	list = shell->progs_list;
 	exit_status = 0;
 	prog = list->content;
+	set_signals(0);
 	if (shell->count_progs == 1 && prog->prog_args != NULL)
 	{
 		// if (prog->flag_redirect ==
@@ -35,8 +38,51 @@ int		print_fn(t_shell *shell, char ***envp)
 		add_underscore(prog, envp, 0);
 		handle_pipeline(list, envp, shell->count_progs, &exit_status);
 	}
-	// set_exit_status();
+	set_exit_status(exit_status, envp);
 	return (0);
+}
+
+void	set_signals(int flag)
+{
+	if (flag == 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+}
+
+void	set_exit_status(int exit_status, char ***envp)
+{
+	char	**command;
+	char	*status;
+	int		x;
+	char	*str;
+
+	x = 0;
+	if (WIFEXITED(exit_status))
+	{
+		command = ft_split("export ?=0", ' ');
+		export(2, command, envp);
+	}
+	else
+	{
+		if (exit_status == 2)
+			x = 130;
+		if (exit_status == 3)
+			x = 131;
+		status = ft_itoa(x);
+		str = ft_strjoin("export ?=", status);
+		command = ft_split(str, ' ');
+		free(str);
+		free(status);
+		export(2, command, envp);
+	}
+	clear_env_array(command);
 }
 
 void	connect_pipes(int **fd, int count)
@@ -110,7 +156,7 @@ void	handle_pipeline(t_list *list, char ***envp,
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
+			set_signals(1);
 			prog_set_fd(i, fd, count_progs, 0);
 			handle_one_prog(prog, envp, PIPELINE, exit_status);
 			return ;
@@ -139,7 +185,7 @@ void	handle_one_prog(t_prog *prog, char ***envp, int flag, int *exit_status)
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
+			set_signals(1);
 			run_binary(prog->prog_args, *envp);
 		}
 		wait(exit_status);
