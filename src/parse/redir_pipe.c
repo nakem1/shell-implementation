@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 08:11:09 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 15:12:12 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 20:38:08 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,12 @@ void		handle_redirect(t_parse *parse, t_prog *prog)
 		start_redir = parse->i_str;
 		redirect_line_move(parse);
 		set_redirect_file(parse, prog, start_redir);
-		prog->redirect_fd = open_redirect(parse, prog->flag_redirect, \
+		if (prog->flag_redirect == e_stdout_redirect || prog->flag_redirect \
+				== e_append_redirect)
+			prog->redirect_fd = open_redirect(parse, prog->flag_redirect, \
+					prog->redirect_file);
+		else
+			prog->input_fd = open_redirect(parse, prog->flag_redirect, \
 				prog->redirect_file);
 	}
 }

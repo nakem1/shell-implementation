@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:56:47 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/24 17:43:51 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 20:31:28 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_prog
 	int				flag_redirect;
 	char			*redirect_file;
 	int				redirect_fd;
+	int				input_fd;
 }					t_prog;
 
 typedef struct		s_shell

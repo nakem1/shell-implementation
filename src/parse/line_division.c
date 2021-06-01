@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 03:24:06 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 20:00:06 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void			handle_env(t_parse *parse)
 	count = 0;
 	*i += 1;
 	while (ft_isalpha(parse->str[*i]) || ft_isdigit(parse->str[*i]) || \
-			parse->str[*i] == '_')
+			parse->str[*i] == '_' || parse->str[*i] == '?')
 	{
 		count++;
 		*i += 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:20:28 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/25 16:16:32 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 20:06:58 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct		s_history
 {
 	t_list			*list;
 	char			*tmp_str;
+	char			*tmp_str2;
 	int				i;
 	int				errors;
 }					t_history;

@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 15:06:26 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 20:29:57 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_info(t_termcap *termcap, t_history *history)
 	tgetent(0, termcap->name_term);
 	tputs(save_cursor, 1, ft_putchar);
 	history->tmp_str = NULL;
+	history->tmp_str2 = NULL;
 	history->i = -1;
 	history->errors = 0;
 }
@@ -70,13 +71,15 @@ void	previous_command(t_history *history)
 	if (flag == 1 || flag == 0)
 		return ;
 	tputs(restore_cursor, 1, ft_putchar);
-	// tputs(tigetstr("ed"), 1, ft_putchar);
 	tputs(tgetstr("cd", 0), 1, ft_putchar);
 	if (flag == 2)
 	{
 		list_tmp = ft_list_at(history->list, history->i);
 		str = (char *)list_tmp->content;
 		ft_putstr_fd(str, 1);
+		if (history->tmp_str != NULL)
+			free(history->tmp_str);
+		history->tmp_str = ft_strdup(str);
 	}
 }
 
@@ -94,7 +97,7 @@ void	next_command(t_history *history)
 	tputs(tgetstr("cd", 0), 1, ft_putchar);
 	if (history->i == -1)
 	{
-		ft_putstr_fd(history->tmp_str, 1);
+		ft_putstr_fd(history->tmp_str2, 1);
 		return ;
 	}
 	if (flag == 2)
@@ -102,6 +105,10 @@ void	next_command(t_history *history)
 		list_tmp = ft_list_at(history->list, history->i);
 		str = (char *)list_tmp->content;
 		ft_putstr_fd(str, 1);
+		if (history->tmp_str != NULL)
+			free(history->tmp_str);
+		history->tmp_str = ft_strdup(str);
+
 	}
 }
 
@@ -151,7 +158,9 @@ int		press_enter(t_history *history, t_termcap *termcap)
 		tcsetattr(0, TCSANOW, &(termcap->term));
 		dup = ft_strdup(history->tmp_str);
 		ft_list_push_front(&history->list, dup);
-		// free(termcap->name_term);
+		free(termcap->name_term);
+		if (history->tmp_str2 != NULL)
+			free(history->tmp_str2);
 	}
 	else
 		return_flag = 1;
@@ -189,7 +198,11 @@ void		termcaps(t_history *history, char **envp)
 		l = read(0, str, 100);
 		str[l] = 0;
 		if (!ft_strcmp(str, "\e[A"))
+		{
+			if (history->i == -1 && history->tmp_str != NULL)
+				history->tmp_str2 = ft_strdup(history->tmp_str);
 			previous_command(history);
+		}
 		else if (!ft_strcmp(str, "\e[B"))
 			next_command(history);
 		else if (!ft_strcmp(str, "\177"))// && !strcmp(str, "\177"))
@@ -209,9 +222,7 @@ void		termcaps(t_history *history, char **envp)
 			break ;
 		}
 		else
-		{
 			handle_command(str, history);
-		}
 	}
 }
 
