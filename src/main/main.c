@@ -6,12 +6,13 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/20 04:37:23 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 15:06:26 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "main.h"
+#include "minishell.h"
 
 int				g_indx = 0; // !
 
@@ -22,6 +23,7 @@ int		ft_putchar(int c)
 
 void	init_info(t_termcap *termcap, t_history *history)
 {
+	termcap->name_term = ft_strdup("xterm-256color");
 	tcgetattr(0, &(termcap->term));
 	termcap->term.c_lflag &= ~(ECHO);
 	termcap->term.c_lflag &= ~(ICANON);
@@ -107,12 +109,15 @@ void	delete_symbol(t_history *history)
 {
 	int		size_str;
 
-	size_str = ft_strlen(history->tmp_str);
-	if (size_str)
+	if (history->tmp_str)
 	{
-		tputs(cursor_left, 1, ft_putchar);
-		tputs(tgetstr("dc", 0), 1, ft_putchar);
-		history->tmp_str[size_str - 1] = '\0';
+		size_str = ft_strlen(history->tmp_str);
+		if (size_str)
+		{
+			tputs(cursor_left, 1, ft_putchar);
+			tputs(tgetstr("dc", 0), 1, ft_putchar);
+			history->tmp_str[size_str - 1] = '\0';
+		}
 	}
 }
 
@@ -146,7 +151,7 @@ int		press_enter(t_history *history, t_termcap *termcap)
 		tcsetattr(0, TCSANOW, &(termcap->term));
 		dup = ft_strdup(history->tmp_str);
 		ft_list_push_front(&history->list, dup);
-		free(termcap->name_term);
+		// free(termcap->name_term);
 	}
 	else
 		return_flag = 1;
@@ -154,7 +159,25 @@ int		press_enter(t_history *history, t_termcap *termcap)
 	return (return_flag);
 }
 
-void		termcaps(t_history *history)
+void		prompt(char **env)
+{
+	(void)env;
+	write(2, "minishell > ", 12);
+}
+
+void		ctrl_c(t_termcap *termcap, char **envp)
+{
+	// tcgetattr(0, &(termcap->term));
+	// termcap->term.c_lflag |= (ECHO);
+	// termcap->term.c_lflag |= (ICANON);
+	// termcap->term.c_lflag |= (ISIG);
+	// tcsetattr(0, TCSANOW, &(termcap->term));
+	(void)*termcap;
+	write(1, "\n", 1);
+	prompt(envp);
+}
+
+void		termcaps(t_history *history, char **envp)
 {
 	char			str[2000];
 	int				l;
@@ -176,7 +199,10 @@ void		termcaps(t_history *history)
 			// press_enter(history, &termcap);
 			if (!press_enter(history, &termcap))
 				break ;
+			prompt(envp);
 		}
+		else if (!ft_strcmp(str, "\3"))
+			ctrl_c(&termcap, envp);
 		else if (!ft_strcmp(str, "\4"))
 		{
 			history->errors = -1;
@@ -185,28 +211,23 @@ void		termcaps(t_history *history)
 		else
 		{
 			handle_command(str, history);
-			// printf("%s\n", history.tmp_str);
 		}
-	} 
+	}
 }
-
-// void		prompt(char **env)
-// {
-// 	write
-// }
 
 int			main(int argc, char **argv, char **env)
 {
 	t_history		history;
-
+	char			**envp;
 	(void)argc;
 	(void)argv;
 	// (void)env;
+	init_envp(&envp, env);
 	history.list = NULL;
 	while (1)
 	{
-		// promtp(env);
-		termcaps(&history);
+		prompt(envp);
+		termcaps(&history, envp);
 		// if (g_indx == 1)
 			// while(1);
 		if (history.errors != 0 && history.errors != -1)
@@ -217,7 +238,7 @@ int			main(int argc, char **argv, char **env)
 			return (0);
 		}
 		// write(1, history.tmp_str, ft_strlen(history.tmp_str));
-		handler(history.tmp_str, env);
+		handler(history.tmp_str, &envp);
 		free(history.tmp_str);
 		history.tmp_str = NULL;
 		g_indx++;

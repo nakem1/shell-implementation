@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 08:11:09 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/10 23:29:57 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 15:12:12 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void		handle_redirect(t_parse *parse, t_prog *prog)
 			parse->replace_str[parse->i_str][0] == '<'))
 	{
 		if (parse->replace_str[parse->i_str + 1] == NULL)
+		{
+			parse->error_flag = 1;
 			return ;
+		}
 		if (parse->replace_str[parse->i_str][0] == '<' &&
 				parse->replace_str[parse->i_str + 1][0] != '<')
 			prog->flag_redirect = e_stdin_redirect;

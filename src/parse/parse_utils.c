@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 04:37:40 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/18 00:18:18 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/01 15:20:18 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int			open_redirect(t_parse *parse, int type, char *redirect_file)
 	int fd;
 
 	fd = -1;
+	if (parse->error_flag)
+		return -1;
 	if (type == e_stdout_redirect)
 	{
 		fd = open(redirect_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);

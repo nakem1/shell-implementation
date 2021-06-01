@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 17:13:53 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 17:16:04 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,23 @@ void	add_underscore(t_prog *prog, char ***envp, int flag)
 	char	**full_cmd;
 	int		i;
 
-	flag = 0;
-	i = 0;
-	while (prog->prog_args[i] != NULL)
-		i++;
-	i--;
-	command_str = NULL;
-	full_cmd = NULL;
-	command_str = ft_strjoin("export _=", prog->prog_args[i]);
-	full_cmd = ft_split(command_str, ' ');
-	export(2, full_cmd, envp);
+	if (flag == 1)
+	{
+		i = 0;
+		while (prog->prog_args[i] != NULL)
+			i++;
+		i--;
+		command_str = NULL;
+		full_cmd = NULL;
+		command_str = ft_strjoin("export _=", prog->prog_args[i]);
+		full_cmd = ft_split(command_str, ' ');
+		export(2, full_cmd, envp);
+		free(command_str);
+	}
+	else
+	{
+		full_cmd = ft_split("unset _", ' ');
+		unset(2, full_cmd, envp);
+	}
 	clear_env_array(full_cmd);
-	free(command_str);
 }

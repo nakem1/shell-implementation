@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 21:12:30 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 16:59:30 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/01 19:06:45 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,12 @@ int		print_fn(t_shell *shell, char ***envp)
 		add_underscore(prog, envp, 1);
 		handle_one_prog(prog, envp, 0, &exit_status);
 	}
-	else
+	else if (prog->prog_args != NULL)
 	{
+		add_underscore(prog, envp, 0);
 		handle_pipeline(list, envp, shell->count_progs, &exit_status);
-		add_underscore(prog, envp, 1);
 	}
-	if (WIFEXITED(exit_status))
-	{
-		int es = WEXITSTATUS(exit_status);
-		printf("Exit status was %d\n", es);
-	}
+	// set_exit_status();
 	return (0);
 }
 
