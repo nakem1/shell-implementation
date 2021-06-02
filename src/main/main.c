@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:24:15 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 17:41:40 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:41:02 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,50 @@ int		press_enter(t_history *history, t_termcap *termcap)
 	return (return_flag);
 }
 
+void		print_user(char **env)
+{
+	int			i;
+	char		*name;
+
+	i = 0;
+	name = "LOGNAME=";
+	while (env[i] != NULL)
+	{
+		if (!ft_strncmp(name, env[i], 8))
+		{
+			ft_putstr_fd(&env[i][8], 2);
+			break ;
+		}
+		i++;
+	}
+}
+
+void		print_pwd(char **env)
+{
+	int			i;
+	char		*name;
+
+	i = 0;
+	name = "PWD=";
+	while (env[i] != NULL)
+	{
+		if (!ft_strncmp(name, env[i], 4))
+		{
+			ft_putstr_fd(&env[i][4], 2);
+			break ;
+		}
+		i++;
+	}
+}
+
 void		prompt(char **env)
 {
-	(void)env;
-	write(2, "minishell > ", 12);
+	ft_putstr_fd ("\033[32m# \033[0m", 2);
+	print_user(env);
+	ft_putstr_fd(" in ", 2);
+	print_pwd(env);
+	ft_putstr_fd("\n", 2);
+	ft_putstr_fd("$ ", 2);
 }
 
 void		ctrl_c(t_termcap *termcap, char **envp)
@@ -184,6 +224,16 @@ void		ctrl_c(t_termcap *termcap, char **envp)
 	(void)*termcap;
 	write(1, "\n", 1);
 	prompt(envp);
+}
+
+int			check_empty_str(char *str)
+{
+	if (str == NULL)
+		return (1);
+	else if (ft_strlen(str) == 0)
+		return (1);
+	else
+		return (0);
 }
 
 void		termcaps(t_history *history, char **envp)
@@ -216,7 +266,7 @@ void		termcaps(t_history *history, char **envp)
 		}
 		else if (!ft_strcmp(str, "\3"))
 			ctrl_c(&termcap, envp);
-		else if (!ft_strcmp(str, "\4"))
+		else if (!ft_strcmp(str, "\4") && check_empty_str(history->tmp_str))
 		{
 			history->errors = -1;
 			break ;
