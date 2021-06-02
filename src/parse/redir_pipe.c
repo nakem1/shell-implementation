@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 08:11:09 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 20:38:08 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 17:50:36 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void		handle_semicolon_pipe(t_parse *parse, t_prog *prog)
 	{
 		prog->flag_separator = e_semicolon;
 		parse->this_semicolon = 1;
-		parse->shell->count_progs++;
+		// parse->shell->count_progs++;
 		parse->i_str++;
 	}
 	else

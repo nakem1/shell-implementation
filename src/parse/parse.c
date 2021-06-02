@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 15:46:11 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 18:17:01 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		add_prog(t_shell *shell)
 	prog->flag_separator = -1;
 	prog->redirect_file = NULL;
 	prog->redirect_fd = NONE_FD;
+	prog->input_fd = NONE_FD;
 	ft_list_push_back(&shell->progs_list, (void *)prog);
 }
 
@@ -69,18 +70,66 @@ int			check_empty_token(char *str, char delim)
 	int j;
 	int size_list;
 	int	flag;
+	int size;
 
 	i = 0;
+	size = ft_strlen(str);
+	// ft_putstr_fd("\x1b[31mstart\x1b[0m\n", 1);
 	if ((i = ft_strindx(str, delim, i)) == -1)
 		return (0);
 	size_list = ft_strlen(str);
 	flag = 0;
-	LOOP
+	while (i != -1)
+	{
+		j = i;
+		if (j == 0 || j == size_list - 1)
+			return (1);
+		j--;
+		while (str[j] != delim && j > -1)
+		{
+			if (str[j] != ' ')
+				flag = 1;
+			j--;
+		}
+		// ft_putstr_fd("\x1b[31mSTRLEN\x1b[0m\n", 1);
+		if (flag == 0)
+			return (1);
+		j = i;
+		flag = 0;
+		j++;
+		while (str[j] != delim && j < size_list)
+		{
+				if (str[j] != ' ')
+					flag = 1;
+			j++;
+		}
+		if (flag == 0)
+			return (1);
+		i = ft_strindx(str, delim, i + 1);
+	}
 	if (flag == 0)
 		return (1);
 	else
 		return (0);
 }
+// int			check_empty_token(char *str, char delim)
+// {
+// 	int i;
+// 	int j;
+// 	int size_list;
+// 	int	flag;
+
+// 	i = 0;
+// 	if ((i = ft_strindx(str, delim, i)) == -1)
+// 		return (0);
+// 	size_list = ft_strlen(str);
+// 	flag = 0;
+// 	LOOP
+// 	if (flag == 0)
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
 /*
 ** 		Function:			t_shell		*parse(char *str);
