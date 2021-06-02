@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/28 15:14:07 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 15:46:11 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,4 +218,5 @@ void	init_envp(char ***envp, char **env_start)
 	free(command);
 	export(2, array, envp);
 	clear_env_array(array);
+	increase_shlvl(envp);
 }
