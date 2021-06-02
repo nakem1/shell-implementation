@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 20:18:48 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:30:26 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	export(int argc, char **argv, char ***envp)
 	{
 		while (tmp != NULL)
 		{
-			if (ft_strcmp(tmp->name, "_") != 0 || ft_strcmp(tmp->name, "?") != 0)
+			if (ft_strcmp(tmp->name, "_") != 0 && ft_strcmp(tmp->name, "?") != 0)
 			{
 				printf("declare -x %s", tmp->name);
 				if (tmp->value != NULL)
 					printf("=\"%s\"", tmp->value);
 				printf("\n");
-				tmp = tmp->next;
 			}
+			tmp = tmp->next;
 		}
 	}
 	else

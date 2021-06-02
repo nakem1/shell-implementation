@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 02:16:35 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/16 20:40:20 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 21:09:57 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	n = ft_strlen(s1) + ft_strlen(s2);
 	if (!(str = (char *)malloc((n * sizeof(char)) + 1)))
-		return (NULL);
+		exit_and_error("memory allocation failed", "ft_strjoin");
 	n = 0;
 	tmp = ft_strlen(s1);
 	while (n < tmp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 01:45:23 by lmurray           #+#    #+#             */
-/*   Updated: 2020/11/02 06:54:49 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 21:09:51 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strdup(const char *s)
 	i = 0;
 	n = ft_strlen(s);
 	if (!(dest = (char *)malloc((n * sizeof(char)) + 1)))
-		return (NULL);
+		exit_and_error("memory allocation failed", "ft_strdup");
 	while (i < n)
 	{
 		dest[i] = s[i];

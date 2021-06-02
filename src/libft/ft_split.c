@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 23:26:12 by lmurray           #+#    #+#             */
-/*   Updated: 2020/11/12 09:56:14 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 21:10:13 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char			*allocate_and_fill_elem(char *str, char *s, char c, int i)
 		j++;
 	}
 	if (!(str = (char *)malloc((count * sizeof(char)) + 1)))
-		return (NULL);
+		exit_and_error("memory allocation failed", "ft_split");
 	str[count] = '\0';
 	j = 0;
 	while (s[k] != c && s[k] != '\0')
@@ -123,7 +123,7 @@ char				**ft_split(char const *s, char c)
 		return (NULL);
 	count_words = word_counter((char *)s, c);
 	if (!(arr = (char **)malloc((count_words + 1) * (sizeof(char *)))))
-		return (NULL);
+		exit_and_error("memory allocation failed", "ft_split");
 	arr[count_words] = NULL;
 	i = -1;
 	while (++i < count_words)

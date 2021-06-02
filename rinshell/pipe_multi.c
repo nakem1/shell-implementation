@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 21:12:30 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 20:04:01 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 21:07:01 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,38 @@ void	set_signals(int flag)
 void	set_exit_status(int exit_status, char ***envp)
 {
 	char	**command;
-	char	*status;
-	int		x;
-	char	*str;
 
 	command = NULL;
-	x = 0;
-	if (WIFEXITED(exit_status))
+	if (exit_status == 0)
 	{
 		command = ft_split("export ?=0", ' ');
 		export(2, command, envp);
+		clear_env_array(command);
 	}
-	else if (WIFSIGNALED(exit_status))
-	{
+	else
+		signal_exit(envp, exit_status);
+}
+
+void	signal_exit(char ***envp, int exit_status)
+{
+	char	*status;
+	char	**command;
+	char	*str;
+
+	if (exit_status == 2 || exit_status == 3)
 		write(1, "\n", 1);
-		if (exit_status == 2)
-			x = 130;
-		if (exit_status == 3)
-			x = 131;
-		status = ft_itoa(x);
-		str = ft_strjoin("export ?=", status);
-		command = ft_split(str, ' ');
-		free(str);
-		free(status);
-		export(2, command, envp);
-	}
+	if (exit_status == 256)
+		exit_status = 127;
+	if (exit_status == 2)
+		exit_status = 130;
+	if (exit_status == 3)
+		exit_status = 131;
+	status = ft_itoa(exit_status);
+	str = ft_strjoin("export ?=", status);
+	command = ft_split(str, ' ');
+	free(str);
+	free(status);
+	export(2, command, envp);
 	clear_env_array(command);
 }
 
@@ -263,7 +270,7 @@ int		check_slash(char *str)
 	return (0);
 }
 
-int exit_and_error(char *message, char *command)
+int	exit_and_error(char *message, char *command)
 {
 	printf("minishell: %s: %s\n", command, message);
 	exit(1);

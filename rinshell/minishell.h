@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 20:12:28 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:54:01 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ char	*get_env(char *var, char **envp);
 
 void	set_exit_status(int exit_status, char ***envp);
 void	set_signals(int flag);
+void	signal_exit(char ***envp, int exit_status);
 
 #endif

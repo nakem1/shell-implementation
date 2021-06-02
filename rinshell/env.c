@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:41:19 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/10 16:03:21 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:31:29 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	env(char **envp)
 	tmp = list;
 	while (tmp != NULL)
 	{
-		if (tmp->value != NULL)
-			printf("%s=%s\n", tmp->name, tmp->value);
+		if (ft_strcmp(tmp->name, "?") != 0)
+			if (tmp->value != NULL)
+				printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
 	env_list_clear(&list);
