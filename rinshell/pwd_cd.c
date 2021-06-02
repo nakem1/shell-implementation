@@ -6,23 +6,26 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 15:52:59 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 19:32:39 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:28:35 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd()
+void	pwd(int *exit_status)
 {
 	char dir[MAXPATHLEN];
 
 	if (getcwd(dir, MAXPATHLEN) == NULL)
+	{
 		printf("minishell: pwd: %s\n", strerror(errno));
+		*exit_status = 1;
+	}
 	else
 		printf("%s\n", dir);
 }
 
-int		cd(int argc, char *path, char ***envp)
+int		cd(int argc, char *path, char ***envp, int *exit_status)
 {
 	int		retval;
 	char	*home_path;
@@ -40,7 +43,10 @@ int		cd(int argc, char *path, char ***envp)
 	else
 		retval = chdir(path);
 	if (retval < 0)
+	{
 		printf("minishell: cd: %s\n", strerror(errno));
+		*exit_status = 1;
+	}
 	else
 		set_pwd(dir, envp);
 	free(home_path);

@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 15:08:35 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:12:28 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ typedef struct		s_env
 
 char	**ft_split(char const *s, char c);
 char	**get_input(char *input);
-int		get_next_line(int fd, char **line);
 void	clr_arr(char **str_ar);
-int		cd(int argc, char *path, char ***envp);
-void	pwd();
+int		cd(int argc, char *path, char ***envp, int *exit_status);
+void	pwd(int *exit_status);
 void	set_pwd(char *dir_old, char ***envp);
 
 t_env	*env_create_elem(char *str);
@@ -74,7 +73,7 @@ void	del_list_elem_if(t_env **list, char *data_ref);
 int		echo(int argc, char **argv);
 
 int		check_built_in(char **command);
-void	run_built_in(int argc, char **command, char ***envp);
+void	run_built_in(int argc, char **command, char ***envp, int *exit_status);
 int		run_path(char **command, char **envp);
 void	run_binary(char **command, char **envp);
 void	handle_pipeline(t_list *list, char ***envp, int count_progs, int *exit_status);

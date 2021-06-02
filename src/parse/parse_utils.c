@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 04:37:40 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 15:20:18 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:22:06 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			open_redirect(t_parse *parse, int type, char *redirect_file)
 	{
 		fd = open(redirect_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
-			parse->error_flag = e_memory;	
+			parse->error_flag = e_memory;
 	}
 	else if (type == e_stdin_redirect)
 	{
@@ -55,7 +55,7 @@ int			open_redirect(t_parse *parse, int type, char *redirect_file)
 		if (fd == -1)
 			parse->error_flag = e_file_not_found;
 	}
-	else if (type == e_stdout_redirect)
+	else if (type == e_append_redirect)
 	{
 		fd = open(redirect_file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (fd == -1)

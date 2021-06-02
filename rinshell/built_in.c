@@ -6,20 +6,20 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 15:58:36 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 14:36:58 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/02 20:27:45 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_built_in(int argc, char **command, char ***envp)
+void	run_built_in(int argc, char **command, char ***envp, int *exit_status)
 {
 	if (ft_strcmp(command[0], "echo") == 0)
 		echo(argc, command);
 	else if (ft_strcmp(command[0], "cd") == 0)
-		cd(argc, command[1], envp);
+		cd(argc, command[1], envp, exit_status);
 	else if (ft_strcmp(command[0], "pwd") == 0)
-		pwd();
+		pwd(exit_status);
 	else if (ft_strcmp(command[0], "export") == 0)
 		export(argc, command, envp);
 	else if (ft_strcmp(command[0], "unset") == 0)
@@ -28,7 +28,7 @@ void	run_built_in(int argc, char **command, char ***envp)
 		env(*envp);
 	else if (ft_strcmp(command[0], "exit") == 0)
 	{
-		printf("exit\n");
+		write(1, "exit\n", 5);
 		exit(0);
 	}
 }
@@ -68,9 +68,9 @@ int		run_path(char **command, char **envp)
 	{
 		if (file_existence(path_arr[i], command[0], i) != -1)
 		{
-			tmp = ft_strjoin(path_arr[i], prog_name);
-			free(command[0]);
-			command[0] = tmp;
+			tmp = command[0];
+			command[0] = ft_strjoin(path_arr[i], prog_name);
+			free(tmp);
 			execve(command[0], command, envp);
 			exit_and_error("No such file or directory", command[0]);
 		}
