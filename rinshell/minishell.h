@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 20:54:01 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 18:10:03 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,15 @@ char	*dup_var_value(const char *s1);
 char	*dup_var_name(const char *s1);
 int		check_equality_sign(char *str);
 char	**convert_list(t_env *env);
-void	env_change_elem(t_env **begin_env, char *str);
+void	env_change_elem(t_env **begin_env, char *str, int flag);
 int		check_var(char *str, t_env *env);
 void	sort_list(t_env **begin_env);
-void	export(int argc, char **argv, char ***envp);
+void	export(int argc, char **argv, char ***envp, int *exit_status);
 void	add_underscore(t_prog *prog, char ***envp, int flag);
+void	export_no_args(t_env *tmp);
+void	special_export(int argc, char **argv, char ***envp);
+void	export_with_args(t_env **list, int argc, char **argv, int *exit_status);
+int		check_variable_syms(char *str);
 
 int		env(char **envp);
 int		unset(int argc, char **argv, char ***envp);
@@ -82,6 +86,7 @@ void	prog_set_fd(int i, int **fd, int count, t_prog *prog);
 int		**init_fd_array(int pipes);
 void	connect_pipes(int **fd, int count);
 void	close_fd(int count_progs, int **fd);
+void	one_prog_redirect(t_prog *prog, char ***envp, int *exit_status);
 
 int		exit_and_error(char *message, char *command);
 int		file_existence(char *path, char *name, int i);

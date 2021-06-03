@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 02:16:35 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 21:09:57 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:03:40 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	n = ft_strlen(s1) + ft_strlen(s2);
 	if (!(str = (char *)malloc((n * sizeof(char)) + 1)))
-		exit_and_error("memory allocation failed", "ft_strjoin");
+		exit_error("memory allocation failed", "ft_strjoin");
 	n = 0;
 	tmp = ft_strlen(s1);
 	while (n < tmp)
@@ -46,4 +46,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i++] = s2[n++];
 	str[i] = '\0';
 	return (str);
+}
+
+
+int		exit_error(char *message, char *command)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	write(2, ": ", 2);
+	ft_putstr_fd(message, 2);
+	write(2, "\n", 1);
+	exit(1);
 }

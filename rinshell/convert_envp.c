@@ -6,60 +6,11 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 22:15:58 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/25 16:03:29 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 18:55:14 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int		main(int argc, char **argv, char **envp)
-// {
-// 	t_env	*list;
-// 	t_env	*tmp;
-// 	int		words;
-// 	char	**env;
-// 	char	str[] = "a";
-// 	char	*vars[] =
-// 	{
-// 		"ZSH=/Users/frariel/.oh-my-zsh",  //0     len = 20, num = 0
-// 		"PAGER=less",					  //1
-// 		"LESS=-R",						  //2
-// 		"LSCOLORS=Gxfxcxdxbxegedabagacad",//3
-// 		"P9K_SSH=0",					  //4
-// 		"LALALAL=",
-// 		"anus=10000",
-// 		NULL
-// 	};
-// 	list = NULL;
-// 	convert_env(envp, &list);
-// 	printf("\n\n");
-// 	if (check_var(str, list) == 0)
-// 		env_push_elem(&list, str);
-// 	else if (check_equality_sign(str) == 1)
-// 		env_change_elem(&list, str);
-// 	tmp = list;
-// 	sort_list(&tmp);
-// 	while (tmp != NULL)
-// 	{
-// 		printf("declare -x %s", tmp->name);
-// 		if (tmp->value != NULL)
-// 		{
-// 			printf("=");
-// 			printf("\"%s\"", tmp->value);
-// 		}
-// 		printf("\n");
-// 		tmp = tmp->next;
-// 	}
-// 	// printf("\n\n");
-// 	// env = convert_list(list);
-// 	// words = 0;
-// 	// while (env[words] != NULL)
-// 	// {
-// 	// 	printf("|%s|\n", env[words]);
-// 	// 	words++;
-// 	// }
-// 	// while (1);
-// }
 
 void		convert_env(char **vars, t_env **env)
 {
@@ -128,7 +79,7 @@ char	*dup_var_name(const char *s1)
 
 	i = 0;
 	length = 0;
-	while (s1[length] != '\0' && s1[length] != '=')
+	while (s1[length] != '\0' && s1[length] != '=' && s1[length] != '+')
 		length++;
 	dest = (char*)malloc((length + 1) * sizeof(char));
 	if (!dest)
@@ -186,7 +137,7 @@ int		check_var(char *str, t_env *env)
 	return (0);
 }
 
-void	env_change_elem(t_env **begin_env, char *str)
+void	env_change_elem(t_env **begin_env, char *str, int flag)
 {
 	t_env	*elem;
 	char	*value;
@@ -203,7 +154,10 @@ void	env_change_elem(t_env **begin_env, char *str)
 			if (ft_strcmp(elem->name, name) == 0)
 			{
 				tmp = elem->value;
-				elem->value = ft_strdup(value);
+				if (flag == 2)
+					elem->value = ft_strjoin(tmp, value);
+				else
+					elem->value = ft_strdup(value);
 				free(tmp);
 				break ;
 			}

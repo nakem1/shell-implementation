@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 15:52:59 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 20:35:53 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:01:18 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	pwd(int *exit_status)
 
 	if (getcwd(dir, MAXPATHLEN) == NULL)
 	{
-		printf("minishell: pwd: %s\n", strerror(errno));
+		ft_putstr_fd("minishell: pwd: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
 		*exit_status = 1;
 	}
 	else
@@ -35,7 +37,7 @@ int		cd(int argc, char *path, char ***envp, int *exit_status)
 	home_path = get_env("HOME", *envp);
 	if (argc == 1 && home_path == NULL)
 	{
-		printf("minishell: cd: HOME not set\n");
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (1);
 	}
 	else if (argc == 1)
@@ -44,7 +46,11 @@ int		cd(int argc, char *path, char ***envp, int *exit_status)
 		retval = chdir(path);
 	if (retval < 0)
 	{
-		printf("minishell: cd: %s\n", strerror(errno));
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		write(2, "\n", 1);
 		*exit_status = 1;
 	}
 	else
@@ -63,11 +69,11 @@ void	set_pwd(char *dir_old, char ***envp)
 	command = ft_strjoin("export OLDPWD=", dir_old);
 	cmd_array = ft_split(command, ' ');
 	free(command);
-	export(2, cmd_array, envp);
+	special_export(2, cmd_array, envp);
 	clear_env_array(cmd_array);
 	command = ft_strjoin("export PWD=", dir);
 	cmd_array = ft_split(command, ' ');
 	free(command);
-	export(2, cmd_array, envp);
+	special_export(2, cmd_array, envp);
 	clear_env_array(cmd_array);
 }

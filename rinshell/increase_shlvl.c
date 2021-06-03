@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 20:02:29 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/01 20:45:09 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 18:10:51 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	increase_shlvl(char ***envp)
 	{
 		shlvl_value = ft_itoa(get_shlvl(list));
 		command = ft_strjoin("SHLVL=", shlvl_value);
-		env_change_elem(&list, command);
+		env_change_elem(&list, command, 0);
 		free(command);
 		free(shlvl_value);
 	}

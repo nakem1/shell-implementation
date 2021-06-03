@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/28 14:55:11 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:03:57 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int					get_next_line(int fd, char **line);
 char				*ft_allocate_join(unsigned int n, unsigned m, \
 		char const *s1, char const *s2);
 void				print_matrix(char **map, int size);
+
+int		exit_error(char *message, char *command);
 
 # define LOOP6  i = ft_strindx(str, delim, i + 1); }
 # define LOOP5 { if (str[j] != ' ') flag=1;j++;}if(flag==0)return(1);  LOOP6

@@ -6,11 +6,12 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 01:45:23 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 21:09:51 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:02:27 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 
 /*
 ** Function:		char *ft_strdup
@@ -29,7 +30,7 @@ char	*ft_strdup(const char *s)
 	i = 0;
 	n = ft_strlen(s);
 	if (!(dest = (char *)malloc((n * sizeof(char)) + 1)))
-		exit_and_error("memory allocation failed", "ft_strdup");
+		exit_error("memory allocation failed", "ft_strdup");
 	while (i < n)
 	{
 		dest[i] = s[i];

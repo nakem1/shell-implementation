@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 18:17:01 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/02 22:24:31 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,13 +259,13 @@ void	init_envp(char ***envp, char **env_start)
 	unset(2, array, envp);
 	clear_env_array(array);
 	array = ft_split("export OLDPWD", ' ');
-	export(2, array, envp);
+	special_export(2, array, envp);
 	clear_env_array(array);
 	getcwd(dir, MAXPATHLEN);
 	command = ft_strjoin("export PWD=", dir);
 	array = ft_split(command, ' ');
 	free(command);
-	export(2, array, envp);
+	special_export(2, array, envp);
 	clear_env_array(array);
 	increase_shlvl(envp);
 }

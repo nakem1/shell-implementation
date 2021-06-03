@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:52 by frariel           #+#    #+#             */
-/*   Updated: 2021/05/25 16:02:50 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 18:58:26 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,10 @@ int	unset(int argc, char **argv, char ***envp)
 	convert_env(*envp, &list);
 	clear_env_array(*envp);
 	tmp = list;
-	if (argc == 1)
-		printf("unset: not enough arguments\n");
-	else
+	while (i < argc)
 	{
-		while (i < argc)
-		{
-			del_list_elem_if(&list, argv[i]);
-			i++;
-		}
+		del_list_elem_if(&list, argv[i]);
+		i++;
 	}
 	*envp = convert_list(list);
 	env_list_clear(&list);

@@ -6,11 +6,12 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 23:26:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 21:10:13 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:02:39 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 
 /*
 ** Function:		static void skip
@@ -30,12 +31,12 @@ static void			skip(char *s, char c, int *i, int flag)
 }
 
 /*
-** Function:		static int word_counter
+** Function:		static int word_count
 **
 ** Description:		counts the number of words
 */
 
-static int			word_counter(char *s, char c)
+static int			word_count(char *s, char c)
 {
 	int i;
 	int count;
@@ -96,7 +97,7 @@ static char			*allocate_and_fill_elem(char *str, char *s, char c, int i)
 		j++;
 	}
 	if (!(str = (char *)malloc((count * sizeof(char)) + 1)))
-		exit_and_error("memory allocation failed", "ft_split");
+		exit_error("memory allocation failed", "ft_split");
 	str[count] = '\0';
 	j = 0;
 	while (s[k] != c && s[k] != '\0')
@@ -121,9 +122,9 @@ char				**ft_split(char const *s, char c)
 
 	if (s == NULL)
 		return (NULL);
-	count_words = word_counter((char *)s, c);
+	count_words = word_count((char *)s, c);
 	if (!(arr = (char **)malloc((count_words + 1) * (sizeof(char *)))))
-		exit_and_error("memory allocation failed", "ft_split");
+		exit_error("memory allocation failed", "ft_split");
 	arr[count_words] = NULL;
 	i = -1;
 	while (++i < count_words)
