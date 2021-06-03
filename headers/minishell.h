@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 00:23:51 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:44:08 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void			export_with_args(t_env **list, int argc, char **argv,
 int				check_variable_syms(char *str);
 
 int				env(char **envp);
-int				unset(int argc, char **argv, char ***envp);
+void			unset(int argc, char **argv, char ***envp, int *exit_status);
+void			special_unset(int argc, char **argv, char ***envp);
 void			del_list_elem_if(t_env **list, char *data_ref);
 int				echo(int argc, char **argv);
 

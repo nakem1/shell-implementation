@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 01:27:11 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:43:01 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	add_underscore(t_prog *prog, char ***envp, int flag)
 	else
 	{
 		full_cmd = ft_split("unset _", ' ');
-		unset(2, full_cmd, envp);
+		special_unset(2, full_cmd, envp);
 	}
 	clear_env_array(full_cmd);
 }

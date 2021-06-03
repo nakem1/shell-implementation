@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/03 23:49:06 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:42:46 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void		init_envp(char ***envp, char **env_start)
 	*envp = convert_list(list);
 	env_list_clear(&list);
 	array = ft_split("unset OLDPWD", ' ');
-	unset(2, array, envp);
+	special_unset(2, array, envp);
 	clear_env_array(array);
 	array = ft_split("export OLDPWD", ' ');
 	special_export(2, array, envp);
