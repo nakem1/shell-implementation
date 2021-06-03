@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 00:16:59 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:27:11 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,15 @@ void	export_no_args(t_env *tmp)
 	{
 		if (ft_strcmp(tmp->name, "_") != 0 && ft_strcmp(tmp->name, "?") != 0)
 		{
-			printf("declare -x %s", tmp->name);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(tmp->name, 1);
 			if (tmp->value != NULL)
-				printf("=\"%s\"", tmp->value);
-			printf("\n");
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(tmp->value, 1);
+				write(1, "\"", 1);
+			}
+			write(1, "\n", 1);
 		}
 		tmp = tmp->next;
 	}

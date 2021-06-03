@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 15:52:59 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 19:28:48 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:27:59 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	pwd(int *exit_status)
 		*exit_status = 1;
 	}
 	else
-		printf("%s\n", dir);
+	{
+		ft_putstr_fd(dir, 1);
+		write(1, "\n", 1);
+	}
 }
 
 void	musor(char *path, char *error)

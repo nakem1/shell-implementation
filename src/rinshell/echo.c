@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:47:44 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 23:12:23 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 01:22:46 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int		echo(int argc, char **argv)
 	{
 		if (argv[i] != NULL)
 		{
-			printf("%s", argv[i]);
+			ft_putstr_fd(argv[i], 1);
 			if (i + 1 < argc && argv[i + 1] != NULL)
-				printf(" ");
+				write(1, " ", 1);
 		}
 		i++;
 	}
 	if (n == 0 || n == 2)
-		printf("\n");
+		write(1, "\n", 1);
 	return (0);
 }
