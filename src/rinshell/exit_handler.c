@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 19:35:54 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 20:44:23 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:17:29 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	signal_exit(char ***envp, int exit_status)
 
 	if (exit_status == 2 || exit_status == 3)
 		write(1, "\n", 1);
-	if (exit_status == 256)
-		exit_status = 1;
+	if (WIFEXITED(exit_status))
+		exit_status = WEXITSTATUS(exit_status);
 	if (exit_status == 2)
 		exit_status = 130;
 	if (exit_status == 3)
@@ -72,7 +72,7 @@ void	exit_built_in(int argc, char **argv)
 		}
 		exit_code = ft_atoi(argv[1]);
 		if (exit_code < 0)
-			exit_code = 256 + exit_code;
+			exit_code = 256 + exit_code % 256;
 		else if (exit_code != 0)
 			exit_code = exit_code % 256;
 		exit(exit_code);
@@ -102,5 +102,5 @@ int		exit_and_error(char *message, char *command)
 	write(2, ": ", 2);
 	ft_putstr_fd(message, 2);
 	write(2, "\n", 1);
-	exit(1);
+	exit(127);
 }

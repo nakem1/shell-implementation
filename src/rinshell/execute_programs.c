@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 19:39:29 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 19:40:32 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:09:44 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,6 @@ void	one_prog_redirect(t_prog *prog, char ***envp, int *exit_status)
 		}
 		wait(exit_status);
 	}
+	if (ft_strcmp(prog->prog_args[0], "exit") == 0)
+		exit_built_in(prog->count_args, prog->prog_args);
 }
