@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 15:52:59 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 19:01:18 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:28:48 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ void	pwd(int *exit_status)
 	}
 	else
 		printf("%s\n", dir);
+}
+
+void	musor(char *path, char *error)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(error, 2);
+	write(2, "\n", 1);
 }
 
 int		cd(int argc, char *path, char ***envp, int *exit_status)
@@ -46,11 +55,7 @@ int		cd(int argc, char *path, char ***envp, int *exit_status)
 		retval = chdir(path);
 	if (retval < 0)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		write(2, "\n", 1);
+		musor(path, strerror(errno));
 		*exit_status = 1;
 	}
 	else

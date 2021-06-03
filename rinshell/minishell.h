@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 18:10:03 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 20:23:42 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		**init_fd_array(int pipes);
 void	connect_pipes(int **fd, int count);
 void	close_fd(int count_progs, int **fd);
 void	one_prog_redirect(t_prog *prog, char ***envp, int *exit_status);
+void	clear_fd_array(int **fd, int pipes);
 
 int		exit_and_error(char *message, char *command);
 int		file_existence(char *path, char *name, int i);
@@ -98,5 +99,7 @@ char	*get_env(char *var, char **envp);
 void	set_exit_status(int exit_status, char ***envp);
 void	set_signals(int flag);
 void	signal_exit(char ***envp, int exit_status);
+void	exit_built_in(int argc, char**argv);
+int		is_str_digit(char *str);
 
 #endif
