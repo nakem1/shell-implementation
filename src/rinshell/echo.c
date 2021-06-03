@@ -6,12 +6,11 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:47:44 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 18:41:36 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 23:12:23 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/libft.h"
 
 int		check_arg(char *str)
 {

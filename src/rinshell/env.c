@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 20:20:08 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/02 21:50:01 by frariel          ###   ########.fr       */
+/*   Created: 2021/03/18 19:41:19 by frariel           #+#    #+#             */
+/*   Updated: 2021/06/03 23:12:29 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <errno.h>
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+int	env(char **envp)
 {
-	char		*dest;
-	size_t		i;
-	size_t		length;
+	int		i;
+	t_env	*list;
+	t_env	*tmp;
 
 	i = 0;
-	length = ft_strlen(s1);
-	dest = (char*)malloc((length + 1) * sizeof(char));
-	if (!dest)
-		return (0);
-	while (i < length)
+	list = NULL;
+	convert_env(envp, &list);
+	sort_list(&list);
+	tmp = list;
+	while (tmp != NULL)
 	{
-		dest[i] = s1[i];
-		i++;
+		if (ft_strcmp(tmp->name, "?") != 0)
+			if (tmp->value != NULL)
+				printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
-	dest[i] = '\0';
-	return (dest);
+	env_list_clear(&list);
+	return (0);
 }

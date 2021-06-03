@@ -63,7 +63,6 @@ SRC = ft_memset.c \
 	ft_list_size.c \
 	ft_list_at.c \
 	ft_list_clear.c \
-	ft_calloc.c \
 	ft_strindx.c
 
 OBJ = $(SRC:.c=.o)

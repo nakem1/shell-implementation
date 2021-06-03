@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 02:59:31 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/03 21:46:56 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 23:53:44 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,6 @@ char				*ft_allocate_join(unsigned int n, unsigned m, \
 		char const *s1, char const *s2);
 void				print_matrix(char **map, int size);
 
-int		exit_error(char *message, char *command);
-
-# define LOOP6  i = ft_strindx(str, delim, i + 1); }
-# define LOOP5 { if (str[j] != ' ') flag=1;j++;}if(flag==0)return(1);  LOOP6
-# define LOOP4  j = i; flag = 0; j++;while(str[j]!=delim && j<size_list) LOOP5
-# define LOOP3 { if (str[j] != ' ') flag = 1;j--;} if(flag==0) return(1); LOOP4
-# define LOOP2 return (1); j--; while (str[j]!=delim && j>-1) LOOP3
-# define LOOP while (str[i] != '\0') { j = i;if(j == 0 || j==size_list-1) LOOP2
+int					exit_error(char *message, char *command);
 
 #endif

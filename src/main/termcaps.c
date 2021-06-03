@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 21:48:26 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/03 22:52:39 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 23:46:44 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		termcaps_utils(t_termcap *termcap, t_history *history)
 **			delete_symbol(history);
 */
 
-void		termcaps(t_history *history, char **envp)
+void		termcaps(t_history *history, char ***envp)
 {
 	t_termcap		termcap;
 
@@ -103,7 +103,7 @@ void		termcaps(t_history *history, char **envp)
 		{
 			if (!press_enter(history, &termcap))
 				break ;
-			prompt(envp);
+			prompt(*envp);
 		}
 		else if (!ft_strcmp(termcap.str, "\3"))
 			ctrl_c(history, &termcap, envp);

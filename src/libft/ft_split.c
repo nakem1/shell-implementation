@@ -6,12 +6,11 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 23:26:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/03 19:02:39 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 23:50:02 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
 /*
 ** Function:		static void skip

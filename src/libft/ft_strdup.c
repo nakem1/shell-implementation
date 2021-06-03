@@ -6,12 +6,11 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 01:45:23 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/03 19:02:27 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 21:43:29 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
 /*
 ** Function:		char *ft_strdup
