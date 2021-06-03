@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:57:09 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 18:55:35 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:35:27 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,6 @@ void	export_no_args(t_env *tmp)
 		}
 		tmp = tmp->next;
 	}
-}
-
-int		check_variable_syms(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '=' && str[i] != '+')
-	{
-		if (i == 0 && !(str[i] >= 'A' && str[i] <= 'z') && str[i] != '_')
-			return (-1);
-		if (!((str[i] >= 'A' && str[i] <= 'z') ||
-			(str[i] >= '0' && str[i] <= '9') || str[i] == '_'))
-			return (-1);
-		i++;
-	}
-	if (str[0] == '+' || str[0] == '=')
-		return (-1);
-	if (str[i] != '\0' && str[i] == '+')
-		return (2);
-	return (0);
 }
 
 void	export_with_args(t_env **list, int argc, char **argv, int *exit_status)

@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 20:02:29 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/03 18:10:51 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:08:35 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		get_shlvl(t_env *list)
 	return (1);
 }
 
-
 int		shlvl_value(char *str)
 {
 	int		i;
@@ -72,8 +71,3 @@ int		shlvl_value(char *str)
 		return (0);
 	return (retval + 1);
 }
-
-//ESLI MUSOR -> 1
-// ESLI < 0 -> 0
-// ESLI 0 || > 0 -> + 1
-// ESLI NET -> 1

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conver_envlist_to_array.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 15:35:07 by frariel           #+#    #+#             */
-/*   Updated: 2021/04/12 15:58:26 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:14:34 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ char	**convert_list(t_env *env)
 		env = env->next;
 		i++;
 	}
-	return(arr);
+	return (arr);
 }
 
-int			count_words(t_env *list)
+int		count_words(t_env *list)
 {
 	t_env	*start;
 	int		i;
