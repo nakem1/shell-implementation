@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 23:59:10 by lmurray           #+#    #+#             */
-/*   Updated: 2021/03/27 07:40:43 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:06:29 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void		handle_apostrophe(t_parse *parse)
 	}
 	else
 		parse->error_flag = 1;
-
 }
 
 void		handle_shielding(t_parse *parse)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 03:03:41 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/25 15:42:36 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 21:41:02 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ typedef struct		s_parse
 	// int				count_quotes;
 }					t_parse;
 
+typedef struct		s_norm
+{
+	int i;
+	int j;
+	int size_list;
+	int flag;
+}					t_norm;
+
 void		line_division(t_parse *parse);
 void		line_move(t_parse *parse, t_prog *prog);
 void		redirect_line_move(t_parse *parse);
@@ -50,4 +58,13 @@ void		free_array2d(char **arr);
 void		free_shell(t_shell **shell);
 void		handle_errors(int flag_error);
 int			print_fn(t_shell *shell, char ***envp);
+void		set_redirect_file_utils(t_parse *parse, t_prog *prog, \
+		int *start_redir, int *i_redir);
+void		handle_redirect_utils(t_parse *parse, t_prog *prog);
+void		copy_env_toredirect(t_parse *parse, int *i, char *file, int *j);
+int			check_empty_token(char *str, char delim);
+void		norm_parse(t_parse *parse, t_shell **shell, int *global);
+void		init_struct_norm(t_parse *parse, char *str, char **env, \
+		int *global);
+
 #endif

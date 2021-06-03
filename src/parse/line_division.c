@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 01:46:45 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 20:00:06 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:16:34 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,15 @@ char			*get_need_env(t_parse *parse, int j)
 	int		count;
 	char	*str_env;
 
-	i = 0;
-	str_env = (char *)malloc(sizeof(char) * ((parse->i_str - j) + 2));
-	while (j + i < parse->i_str)
-	{
+	i = -1;
+	if (!(str_env = (char *)malloc(sizeof(char) * ((parse->i_str - j) + 2))))
+		exit_error("hey", "malloc");
+	while (j + ++i < parse->i_str)
 		str_env[i] = parse->str[j + i];
-		i++;
-	}
 	str_env[i] = '=';
 	str_env[i + 1] = '\0';
-	i = 0;
-	while (parse->env[i] != NULL)
+	i = -1;
+	while (parse->env[++i] != NULL)
 	{
 		if (!ft_strncmp(str_env, parse->env[i], ft_strlen(str_env)))
 		{
@@ -68,12 +66,11 @@ char			*get_need_env(t_parse *parse, int j)
 			str_env = ft_strdup(&(parse->env[i][count]));
 			return (str_env);
 		}
-		i++;
 	}
 	free(str_env);
 	return (NULL);
 }
-// исправить этот бред сумасшедшего
+
 void			reset_replace_str(t_parse *parse, int j, char *target_env)
 {
 	if (target_env != NULL)
@@ -104,6 +101,12 @@ void			handle_env(t_parse *parse)
 	j = *i;
 	count = 0;
 	*i += 1;
+	if (ft_isdigit(parse->str[*i]))
+	{
+		parse->replace_str[j][0] = '\0';
+		parse->replace_str[*i][0] = '\0';
+		return ;
+	}
 	while (ft_isalpha(parse->str[*i]) || ft_isdigit(parse->str[*i]) || \
 			parse->str[*i] == '_' || parse->str[*i] == '?')
 	{
@@ -125,6 +128,5 @@ void			line_division(t_parse *parse)
 	if (parse->error_flag != 0)
 		return ;
 	set_output_str(parse, prog);
-	// handle_redirect(parse, prog);
-	handle_semicolon_pipe(parse, prog); // увеличить каунт прог и расставить флаги
+	handle_semicolon_pipe(parse, prog);
 }

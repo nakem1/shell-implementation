@@ -6,7 +6,7 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 23:20:28 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/01 20:06:58 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 22:59:28 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 typedef struct		s_termcap
 {
+	char			str[2000];
+	int				l;
 	struct termios	term;
 	char			*name_term;
 }					t_termcap;
@@ -34,5 +36,12 @@ typedef struct		s_history
 }					t_history;
 
 void		handler(char *str, char ***env);
+void		termcaps(t_history *history, char **envp);
+void		prompt(char **env);
+int			press_enter(t_history *history, t_termcap *termcap);
+void		next_command(t_history *history);
+void		previous_command(t_history *history);
+void		ctrl_c(t_history *history, t_termcap *termcap, char **envp);
+void		handle_command(char *str, t_history *history);
 
 #endif

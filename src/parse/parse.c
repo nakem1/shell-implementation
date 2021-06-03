@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 02:24:12 by lmurray           #+#    #+#             */
-/*   Updated: 2021/06/02 22:24:31 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/03 21:41:07 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,9 @@ t_parse		*init_struct(char *str, char **env, int *global)
 	if (!(parse = (t_parse *)malloc(sizeof(t_parse))))
 		return (NULL);
 	parse->shell = (t_shell *)malloc(sizeof(t_shell));
-	parse->shell->count_progs = 1;
-	parse->shell->progs_list = NULL;
-	parse->str = str;
-	parse->i_str = *global;
-	parse->start_command = 0;
-	parse->number_args = 0;
-	parse->error_flag = 0;
-	parse->this_semicolon = 0;
-	// parse->replace_str = NULL;
-	parse->env = env;
-	if (!(parse->replace_str = (char **)malloc(sizeof(char *) * (size_str + 1))))
+	init_struct_norm(parse, str, env, global);
+	if (!(parse->replace_str = (char **)malloc(sizeof(char *) * \
+			(size_str + 1))))
 		return (NULL);
 	parse->replace_str[size_str] = NULL;
 	while (i < size_str)
@@ -63,73 +55,6 @@ t_parse		*init_struct(char *str, char **env, int *global)
 	}
 	return (parse);
 }
-
-int			check_empty_token(char *str, char delim)
-{
-	int i;
-	int j;
-	int size_list;
-	int	flag;
-	int size;
-
-	i = 0;
-	size = ft_strlen(str);
-	// ft_putstr_fd("\x1b[31mstart\x1b[0m\n", 1);
-	if ((i = ft_strindx(str, delim, i)) == -1)
-		return (0);
-	size_list = ft_strlen(str);
-	flag = 0;
-	while (i != -1)
-	{
-		j = i;
-		if (j == 0 || j == size_list - 1)
-			return (1);
-		j--;
-		while (str[j] != delim && j > -1)
-		{
-			if (str[j] != ' ')
-				flag = 1;
-			j--;
-		}
-		// ft_putstr_fd("\x1b[31mSTRLEN\x1b[0m\n", 1);
-		if (flag == 0)
-			return (1);
-		j = i;
-		flag = 0;
-		j++;
-		while (str[j] != delim && j < size_list)
-		{
-				if (str[j] != ' ')
-					flag = 1;
-			j++;
-		}
-		if (flag == 0)
-			return (1);
-		i = ft_strindx(str, delim, i + 1);
-	}
-	if (flag == 0)
-		return (1);
-	else
-		return (0);
-}
-// int			check_empty_token(char *str, char delim)
-// {
-// 	int i;
-// 	int j;
-// 	int size_list;
-// 	int	flag;
-
-// 	i = 0;
-// 	if ((i = ft_strindx(str, delim, i)) == -1)
-// 		return (0);
-// 	size_list = ft_strlen(str);
-// 	flag = 0;
-// 	LOOP
-// 	if (flag == 0)
-// 		return (1);
-// 	else
-// 		return (0);
-// }
 
 /*
 ** 		Function:			t_shell		*parse(char *str);
@@ -145,7 +70,6 @@ int			check_empty_token(char *str, char delim)
 int			parse(t_shell **shell, char *str, char **env, int *global)
 {
 	t_parse		*parse;
-	// t_shell		*tmp;
 	int			j;
 
 	j = 0;
@@ -156,14 +80,11 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 	while (j < parse->shell->count_progs && parse->error_flag == 0 && \
 			parse->this_semicolon != 1)
 	{
-		add_prog(parse->shell); // создает один лист в progs_list
-		line_division(parse); // парсит строку итой программы
+		add_prog(parse->shell);
+		line_division(parse);
 		j++;
 	}
-	*shell = parse->shell;
-	*global = parse->i_str;
-	free_array2d(parse->replace_str);
-	free(parse);
+	norm_parse(parse, shell, global);
 	if (parse->error_flag != 0)
 	{
 		free_shell(shell);
@@ -175,45 +96,11 @@ int			parse(t_shell **shell, char *str, char **env, int *global)
 		return (0);
 }
 
-// void		print_fn(t_shell *shell)
-// {
-// 	int		i;
-// 	int		j;
-// 	t_prog	*tmp;
-// 	t_list	*list;
-
-// 	list = shell->progs_list;
-// 	while (list != NULL)
-// 	{
-// 		j = 0;
-// 		i = 0;
-// 		tmp = list->content;
-// 		while (tmp->prog_args != NULL && tmp->prog_args[j] != NULL)
-// 		{
-// 			printf("[%d] command [%d] word == %s\n", i, j, tmp->prog_args[j]);
-// 			j++;
-// 			i++;
-// 		}
-// 		if (tmp->flag_redirect != -1)
-// 			printf("flag_redirect == %d\n", tmp->flag_redirect);
-// 		if (tmp->flag_separator != -1)
-// 			printf("flag_separator == %d\n", tmp->flag_separator);
-// 		list = list->next;
-// 		i++;
-// 	}
-// 	printf("_______________________________________________END_OF_LIST___\n\n\n");
-// }
-
-// TODO echo $?
-// TODO prompt
-// TODO history
-
-void	handler(char *str, char ***env)
+void		handler(char *str, char ***env)
 {
 	int				global;
 	t_shell			*shell;
 	int				end_command;
-	t_prog			*tmp; // DELETE
 
 	end_command = 0;
 	shell = NULL;
@@ -222,27 +109,23 @@ void	handler(char *str, char ***env)
 	{
 		if (shell == NULL)
 		{
-			handle_errors(end_command); // not ready
+			handle_errors(end_command);
 			printf("SYNTAX ERROR\n");
 			return ;
 		}
-		print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
+		print_fn(shell, env);
 		free_shell(&shell);
 	}
 	if (end_command != 0)
 	{
-		handle_errors(end_command); // not ready
+		handle_errors(end_command);
 		return ;
 	}
-	tmp = shell->progs_list->content;
-	// printf("LALALA2\n");
-	print_fn(shell, env); // ? СЮДА ВСТАВИТЬ КОД РИНА
+	print_fn(shell, env);
 	free_shell(&shell);
-	// return (0);
 }
 
-
-void	init_envp(char ***envp, char **env_start)
+void		init_envp(char ***envp, char **env_start)
 {
 	t_env	*list;
 	char	**array;

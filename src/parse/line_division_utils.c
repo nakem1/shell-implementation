@@ -6,12 +6,11 @@
 /*   By: lmurray <lmurray@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:30:06 by lmurray           #+#    #+#             */
-/*   Updated: 2021/05/11 00:46:22 by lmurray          ###   ########.fr       */
+/*   Updated: 2021/06/03 19:28:20 by lmurray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-
 
 /*
 ** 		Description:		the function counts the number of characters in the
@@ -35,7 +34,7 @@ int			count_letters_inword(t_parse *parse, int i)
 void		copy_env_tostr(t_parse *parse, int i, char **prog_args, int *j)
 {
 	int k;
-	
+
 	k = 0;
 	while (parse->replace_str[i][k] != '\0')
 	{
@@ -64,8 +63,7 @@ int			word_counter(t_parse *parse)
 	}
 	return (count);
 }
-// эта функция вызывается в цикле. Она запихивает нный аргумент из replace_str 
-// в выходной массив
+
 int			set_word(t_parse *parse, int *i, t_prog *prog)
 {
 	int			count;
@@ -82,22 +80,19 @@ int			set_word(t_parse *parse, int *i, t_prog *prog)
 	{
 		if (parse->replace_str[*i][0] != '\0' &&
 				parse->replace_str[*i][1] != '\0')
-		{
 			copy_env_tostr(parse, *i, prog->prog_args, &j);
-			*i += 1;
-		}
 		else
 		{
 			if (parse->replace_str[*i][0] != '\0')
 				prog->prog_args[parse->number_args][j++] =
 						parse->replace_str[*i][0];
-			*i += 1;
 		}
+		*i += 1;
 	}
 	return (0);
 }
 
-void			set_output_str(t_parse *parse, t_prog *prog)
+void		set_output_str(t_parse *parse, t_prog *prog)
 {
 	int		i;
 
