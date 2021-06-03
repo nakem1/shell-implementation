@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 15:58:36 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 01:40:27 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:27:23 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	run_built_in(int argc, char **command, char ***envp, int *exit_status)
 	else if (ft_strcmp(command[0], "exit") == 0)
 	{
 		write(1, "exit\n", 5);
-		exit_built_in(argc, command);
+		exit_built_in(argc, command, exit_status);
 	}
 }
 

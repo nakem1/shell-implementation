@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 19:35:54 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 02:17:29 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:33:59 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	signal_exit(char ***envp, int exit_status)
 		write(1, "\n", 1);
 	if (WIFEXITED(exit_status))
 		exit_status = WEXITSTATUS(exit_status);
-	if (exit_status == 2)
+	else if (exit_status == 2)
 		exit_status = 130;
-	if (exit_status == 3)
+	else if (exit_status == 3)
 		exit_status = 131;
 	status = ft_itoa(exit_status);
 	str = ft_strjoin("export ?=", status);
@@ -50,7 +50,7 @@ void	signal_exit(char ***envp, int exit_status)
 	clear_env_array(command);
 }
 
-void	exit_built_in(int argc, char **argv)
+void	exit_built_in(int argc, char **argv, int *exit_status)
 {
 	int		exit_code;
 
@@ -67,11 +67,11 @@ void	exit_built_in(int argc, char **argv)
 		}
 		if (argc > 2)
 		{
+			*exit_status = 1;
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			return ;
 		}
-		exit_code = ft_atoi(argv[1]);
-		if (exit_code < 0)
+		if ((exit_code = ft_atoi(argv[1])) < 0)
 			exit_code = 256 + exit_code % 256;
 		else if (exit_code != 0)
 			exit_code = exit_code % 256;

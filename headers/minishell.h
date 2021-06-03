@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 20:45:14 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 01:44:08 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:28:08 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char			*get_env(char *var, char **envp);
 void			set_exit_status(int exit_status, char ***envp);
 void			set_signals(int flag);
 void			signal_exit(char ***envp, int exit_status);
-void			exit_built_in(int argc, char**argv);
+void			exit_built_in(int argc, char**argv, int *exit_status);
 int				is_str_digit(char *str);
 
 #endif

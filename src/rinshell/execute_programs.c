@@ -6,7 +6,7 @@
 /*   By: frariel <frariel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 19:39:29 by frariel           #+#    #+#             */
-/*   Updated: 2021/06/04 02:09:44 by frariel          ###   ########.fr       */
+/*   Updated: 2021/06/04 02:29:17 by frariel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void	one_prog_redirect(t_prog *prog, char ***envp, int *exit_status)
 		export(prog->count_args, prog->prog_args, envp, exit_status);
 	else if (ft_strcmp(prog->prog_args[0], "cd") == 0)
 		cd(prog->count_args, prog->prog_args[1], envp, exit_status);
+	else if (ft_strcmp(prog->prog_args[0], "exit") == 0)
+	{
+		write(1, "exit\n", 5);
+		exit_built_in(prog->count_args, prog->prog_args, exit_status);
+	}
 	if (*exit_status != 1)
 	{
 		pid = fork();
@@ -96,6 +101,4 @@ void	one_prog_redirect(t_prog *prog, char ***envp, int *exit_status)
 		}
 		wait(exit_status);
 	}
-	if (ft_strcmp(prog->prog_args[0], "exit") == 0)
-		exit_built_in(prog->count_args, prog->prog_args);
 }
