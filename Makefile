@@ -16,7 +16,7 @@ LIBFT_PATH = src/libft/libft.a
 
 .PHONY: all
 all: $(NAME)
-	@echo "\x1b[33mMINISHELL IS READY. SUCCESS PLS\x1b[0m"
+	@echo "\x1b[33mMINISHELL IS READY.\x1b[0m"
 
 $(NAME):
 		@$(COMPILE) $(SRC) -I ./headers

@@ -67,10 +67,6 @@ echo $PWD; echo $OLDPWD
 unset OLDPWD; echo $OLDPWD
 cd; echo $OLDPWD
 cd ; echo $PWD; echo $OLDPWD
-cd -
-ls -la
-ls "-la" ; cd -
-echo '\'
 echo \hello \$PWD
 echo '\hello \$PWD'
 echo "\hello \$PWD"
